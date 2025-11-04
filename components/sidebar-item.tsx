@@ -19,18 +19,18 @@ export const SidebarItem = ({ label, iconSrc, href }: SidebarItemProps) => {
   return (
     <Button
       variant={isActive ? "sidebarOutline" : "sidebar"}
-      className="h-[52px] justify-start"
+      className="h-[52px] justify-center lg:justify-start"
       asChild
     >
       <Link href={href}>
         <Image
           src={iconSrc}
           alt={label}
-          className="mr-5"
+          className="mr-0 lg:mr-5"
           height={32}
           width={32}
         />
-        {label}
+        <span className="hidden lg:inline">{label}</span>
       </Link>
     </Button>
   );

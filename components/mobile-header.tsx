@@ -1,9 +1,28 @@
-import { MobileSidebar } from "./mobile-sidebar";
+import { courses } from "@/db/schema";
 
-export const MobileHeader = () => {
+import { UserProgress } from "./user-progress";
+
+type MobileHeaderProps = {
+  activeCourse: typeof courses.$inferSelect;
+  hearts: number;
+  points: number;
+  hasActiveSubscription: boolean;
+};
+
+export const MobileHeader = ({
+  activeCourse,
+  hearts,
+  points,
+  hasActiveSubscription,
+}: MobileHeaderProps) => {
   return (
-    <nav className="fixed top-0 z-50 flex h-[50px] w-full items-center border-b bg-orange-500 px-4 lg:hidden">
-      <MobileSidebar />
+    <nav className="fixed top-0 z-50 w-full border-b bg-white px-3 py-2 lg:hidden">
+      <UserProgress
+        activeCourse={activeCourse}
+        hearts={hearts}
+        points={points}
+        hasActiveSubscription={hasActiveSubscription}
+      />
     </nav>
   );
 };

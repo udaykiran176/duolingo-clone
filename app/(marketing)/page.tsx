@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 
 export default function MarketingPage() {
   return (
-    <div className="mx-auto flex w-full max-w-[988px] flex-1 flex-col items-center justify-center gap-2 p-4 lg:flex-row">
+    <div className="mx-auto flex w-full max-w-[788px] flex-1 flex-col items-center justify-center gap-2 p-4 lg:flex-row">
       <div className="relative mb-8 h-[240px] w-[240px] lg:mb-0 lg:h-[424px] lg:w-[424px]">
         <Image src="/hero-image.png" alt="Hero" fill />
       </div>

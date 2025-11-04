@@ -1,9 +1,9 @@
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 import db from "@/db/drizzle";
 import { challengeOptions } from "@/db/schema";
 import { getIsAdmin } from "@/lib/admin";
-import { eq } from "drizzle-orm";
 
 export async function PATCH(
   request: NextRequest,
@@ -15,10 +15,20 @@ export async function PATCH(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
+    const body = (await request.json()) as {
+      text?: string;
+      correct?: boolean;
+      imageSrc?: string | null;
+      audioSrc?: string | null;
+    };
     const { text, correct, imageSrc, audioSrc } = body;
 
-    const updateData: any = {};
+    const updateData: Partial<{
+      text: string;
+      correct: boolean;
+      imageSrc: string | null;
+      audioSrc: string | null;
+    }> = {};
     if (text !== undefined) updateData.text = text;
     if (typeof correct === "boolean") updateData.correct = correct;
     if (imageSrc !== undefined) updateData.imageSrc = imageSrc || null;

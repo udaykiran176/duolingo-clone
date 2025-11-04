@@ -6,7 +6,6 @@ import {
   ClerkLoading,
   SignInButton,
   SignedOut,
-  useAuth,
 } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
 import Image from "next/image";
@@ -14,11 +13,9 @@ import Link from "next/link";
 
 import Banner from "@/components/banner";
 import { Button } from "@/components/ui/button";
-import { links } from "@/config";
 import { cn } from "@/lib/utils";
 
 export const Header = () => {
-  const { isSignedIn } = useAuth();
   const [hideBanner, setHideBanner] = useState(true);
 
   return (

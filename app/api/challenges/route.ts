@@ -1,9 +1,9 @@
+import { eq, desc } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 import db from "@/db/drizzle";
 import { challenges } from "@/db/schema";
 import { getIsAdmin } from "@/lib/admin";
-import { eq, desc } from "drizzle-orm";
 
 export async function GET(request: NextRequest) {
   try {
@@ -43,7 +43,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
+    const body = (await request.json()) as {
+      lessonId: string | number;
+      type: string;
+      question: string;
+    };
     const { lessonId, type, question } = body;
 
     if (!lessonId || !type || !question) {
@@ -64,7 +68,7 @@ export async function POST(request: NextRequest) {
     const maxOrderResult = await db
       .select({ maxOrder: challenges.order })
       .from(challenges)
-      .where(eq(challenges.lessonId, parseInt(lessonId)))
+      .where(eq(challenges.lessonId, typeof lessonId === "string" ? parseInt(lessonId) : lessonId))
       .orderBy(desc(challenges.order))
       .limit(1);
 
@@ -72,11 +76,14 @@ export async function POST(request: NextRequest) {
       ? maxOrderResult[0].maxOrder + 1
       : 1;
 
+    const challengeType: "SELECT" | "ASSIST" =
+      type === "SELECT" || type === "ASSIST" ? type : "SELECT";
+
     const [newChallenge] = await db
       .insert(challenges)
       .values({
-        lessonId: parseInt(lessonId),
-        type: type as "SELECT" | "ASSIST",
+        lessonId: typeof lessonId === "string" ? parseInt(lessonId) : lessonId,
+        type: challengeType,
         question,
         order: nextOrder,
       })

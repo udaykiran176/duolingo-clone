@@ -1,9 +1,9 @@
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 import db from "@/db/drizzle";
 import { units } from "@/db/schema";
 import { getIsAdmin } from "@/lib/admin";
-import { eq } from "drizzle-orm";
 
 export async function GET(
   request: NextRequest,
@@ -15,10 +15,15 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const unitId = Number(params.id);
+    if (isNaN(unitId)) {
+      return NextResponse.json({ error: "Invalid unit ID" }, { status: 400 });
+    }
+
     const unit = await db
       .select()
       .from(units)
-      .where(eq(units.id, parseInt(params.id)))
+      .where(eq(units.id, unitId))
       .limit(1);
 
     if (unit.length === 0) {
@@ -45,17 +50,32 @@ export async function PATCH(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
-    const { title, description, courseId } = body;
+    interface UpdateUnitRequest {
+      title?: string;
+      description?: string;
+      courseId?: string | number;
+      order?: string | number;
+    }
+    
+    const body = await request.json() as UpdateUnitRequest;
+    const { title, description, courseId, order } = body;
+
+    const updateData: {
+      title?: string;
+      description?: string;
+      courseId?: number;
+      order?: number;
+    } = {};
+
+    if (title !== undefined) updateData.title = title;
+    if (description !== undefined) updateData.description = description;
+    if (courseId !== undefined) updateData.courseId = Number(courseId);
+    if (order !== undefined) updateData.order = Number(order);
 
     const [updatedUnit] = await db
       .update(units)
-      .set({
-        ...(title && { title }),
-        ...(description && { description }),
-        ...(courseId && { courseId: parseInt(courseId) }),
-      })
-      .where(eq(units.id, parseInt(params.id)))
+      .set(updateData)
+      .where(eq(units.id, Number(params.id)))
       .returning();
 
     if (!updatedUnit) {
@@ -82,7 +102,12 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await db.delete(units).where(eq(units.id, parseInt(params.id)));
+    const unitId = Number(params.id);
+    if (isNaN(unitId)) {
+      return NextResponse.json({ error: "Invalid unit ID" }, { status: 400 });
+    }
+
+    await db.delete(units).where(eq(units.id, unitId));
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -1,9 +1,9 @@
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 import db from "@/db/drizzle";
 import { lessons } from "@/db/schema";
 import { getIsAdmin } from "@/lib/admin";
-import { eq } from "drizzle-orm";
 
 export async function GET(
   request: NextRequest,
@@ -45,14 +45,19 @@ export async function PATCH(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
+    const body = (await request.json()) as {
+      title?: string;
+      unitId?: string | number;
+    };
     const { title, unitId } = body;
 
     const [updatedLesson] = await db
       .update(lessons)
       .set({
-        ...(title && { title }),
-        ...(unitId && { unitId: parseInt(unitId) }),
+        ...(title ? { title } : {}),
+        ...(unitId !== undefined
+          ? { unitId: typeof unitId === "string" ? parseInt(unitId) : unitId }
+          : {}),
       })
       .where(eq(lessons.id, parseInt(params.id)))
       .returning();

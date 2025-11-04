@@ -1,9 +1,9 @@
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 import db from "@/db/drizzle";
 import { challengeOptions } from "@/db/schema";
 import { getIsAdmin } from "@/lib/admin";
-import { eq } from "drizzle-orm";
 
 export async function GET(request: NextRequest) {
   try {
@@ -44,7 +44,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
+    const body = (await request.json()) as {
+      challengeId: string | number;
+      text: string;
+      correct: boolean;
+      imageSrc?: string | null;
+      audioSrc?: string | null;
+    };
     const { challengeId, text, correct, imageSrc, audioSrc } = body;
 
     if (!challengeId || !text || typeof correct !== "boolean") {
@@ -57,7 +63,7 @@ export async function POST(request: NextRequest) {
     const [newOption] = await db
       .insert(challengeOptions)
       .values({
-        challengeId: parseInt(challengeId),
+        challengeId: typeof challengeId === "string" ? parseInt(challengeId) : challengeId,
         text,
         correct: Boolean(correct),
         imageSrc: imageSrc || null,

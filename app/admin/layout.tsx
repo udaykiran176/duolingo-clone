@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { AdminSidebar } from "@/components/admin/sidebar";
 import { AdminTopBar } from "@/components/admin/topbar";
 import { getIsAdmin } from "@/lib/admin";
+
 import { AdminProviders } from "./providers";
 
 export default async function AdminLayout({

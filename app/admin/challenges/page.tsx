@@ -1,26 +1,28 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Plus,
   Edit,
   Trash2,
-  ExternalLink,
   ArrowLeft,
   X,
   Check,
 } from "lucide-react";
-import { toast } from "sonner";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 import * as z from "zod";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Breadcrumb } from "@/components/admin/breadcrumb";
+import { DraggableList } from "@/components/admin/draggable-list";
 import { FormDialog } from "@/components/admin/form-dialog";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -37,12 +39,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Breadcrumb } from "@/components/admin/breadcrumb";
-import { DraggableList } from "@/components/admin/draggable-list";
 
 const challengeSchema = z.object({
   lessonId: z.string().min(1, "Lesson is required"),
-  type: z.enum(["SELECT", "ASSIST"], { required_error: "Type is required" }),
+  type: z.enum(["SELECT", "ASSIST"] as const, {
+    message: "Type is required",
+  }),
   question: z.string().min(1, "Question is required"),
 });
 
@@ -84,19 +86,19 @@ async function fetchChallenges(lessonId?: string): Promise<Challenge[]> {
   const url = lessonId ? `/api/challenges?lessonId=${lessonId}` : "/api/challenges";
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch challenges");
-  return res.json();
+  return (await res.json()) as Challenge[];
 }
 
 async function fetchLessons(): Promise<Lesson[]> {
   const res = await fetch("/api/lessons");
   if (!res.ok) throw new Error("Failed to fetch lessons");
-  return res.json();
+  return (await res.json()) as Lesson[];
 }
 
 async function fetchOptions(challengeId: number): Promise<ChallengeOption[]> {
   const res = await fetch(`/api/challenge-options?challengeId=${challengeId}`);
   if (!res.ok) throw new Error("Failed to fetch options");
-  return res.json();
+  return (await res.json()) as ChallengeOption[];
 }
 
 async function createChallenge(data: ChallengeFormData): Promise<Challenge> {
@@ -106,10 +108,12 @@ async function createChallenge(data: ChallengeFormData): Promise<Challenge> {
     body: JSON.stringify(data),
   });
   if (!res.ok) {
-    const error = await res.json().catch(() => ({ error: "Failed to create challenge" }));
+    const error = (await res
+      .json()
+      .catch(() => ({ error: "Failed to create challenge" }))) as { error?: string };
     throw new Error(error.error || "Failed to create challenge");
   }
-  return res.json();
+  return (await res.json()) as Challenge;
 }
 
 async function updateChallenge(
@@ -122,10 +126,12 @@ async function updateChallenge(
     body: JSON.stringify(data),
   });
   if (!res.ok) {
-    const error = await res.json().catch(() => ({ error: "Failed to update challenge" }));
+    const error = (await res
+      .json()
+      .catch(() => ({ error: "Failed to update challenge" }))) as { error?: string };
     throw new Error(error.error || "Failed to update challenge");
   }
-  return res.json();
+  return (await res.json()) as Challenge;
 }
 
 async function deleteChallenge(id: number): Promise<void> {
@@ -140,7 +146,9 @@ async function reorderChallenges(items: { id: number; order: number }[]): Promis
     body: JSON.stringify({ items }),
   });
   if (!res.ok) {
-    const error = await res.json().catch(() => ({ error: "Failed to reorder challenges" }));
+    const error = (await res
+      .json()
+      .catch(() => ({ error: "Failed to reorder challenges" }))) as { error?: string; details?: string };
     throw new Error(error.error || error.details || "Failed to reorder challenges");
   }
 }
@@ -155,10 +163,12 @@ async function createOption(
     body: JSON.stringify({ challengeId, ...data }),
   });
   if (!res.ok) {
-    const error = await res.json().catch(() => ({ error: "Failed to create option" }));
+    const error = (await res
+      .json()
+      .catch(() => ({ error: "Failed to create option" }))) as { error?: string };
     throw new Error(error.error || "Failed to create option");
   }
-  return res.json();
+  return (await res.json()) as ChallengeOption;
 }
 
 async function updateOption(
@@ -171,10 +181,12 @@ async function updateOption(
     body: JSON.stringify(data),
   });
   if (!res.ok) {
-    const error = await res.json().catch(() => ({ error: "Failed to update option" }));
+    const error = (await res
+      .json()
+      .catch(() => ({ error: "Failed to update option" }))) as { error?: string };
     throw new Error(error.error || "Failed to update option");
   }
-  return res.json();
+  return (await res.json()) as ChallengeOption;
 }
 
 async function deleteOption(id: number): Promise<void> {
@@ -237,7 +249,7 @@ export default function ChallengesPage() {
   const createMutation = useMutation({
     mutationFn: createChallenge,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["challenges"] });
+      void queryClient.invalidateQueries({ queryKey: ["challenges"] });
       toast.success("Challenge created successfully");
       setIsDialogOpen(false);
       challengeForm.reset();
@@ -251,7 +263,7 @@ export default function ChallengesPage() {
     mutationFn: ({ id, data }: { id: number; data: ChallengeFormData }) =>
       updateChallenge(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["challenges"] });
+      void queryClient.invalidateQueries({ queryKey: ["challenges"] });
       toast.success("Challenge updated successfully");
       setIsDialogOpen(false);
       setEditingChallenge(null);
@@ -265,7 +277,7 @@ export default function ChallengesPage() {
   const deleteMutation = useMutation({
     mutationFn: deleteChallenge,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["challenges"] });
+      void queryClient.invalidateQueries({ queryKey: ["challenges"] });
       toast.success("Challenge deleted successfully");
     },
     onError: () => {
@@ -276,7 +288,7 @@ export default function ChallengesPage() {
   const reorderMutation = useMutation({
     mutationFn: reorderChallenges,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["challenges"] });
+      void queryClient.invalidateQueries({ queryKey: ["challenges"] });
       toast.success("Challenges reordered successfully");
     },
     onError: (error: Error) => {
@@ -288,7 +300,7 @@ export default function ChallengesPage() {
     mutationFn: ({ challengeId, data }: { challengeId: number; data: OptionFormData }) =>
       createOption(challengeId, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["options"] });
+      void queryClient.invalidateQueries({ queryKey: ["options"] });
       toast.success("Option created successfully");
       setIsOptionDialogOpen(false);
       optionForm.reset();
@@ -302,7 +314,7 @@ export default function ChallengesPage() {
     mutationFn: ({ id, data }: { id: number; data: Partial<OptionFormData> }) =>
       updateOption(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["options"] });
+      void queryClient.invalidateQueries({ queryKey: ["options"] });
       toast.success("Option updated successfully");
       setIsOptionDialogOpen(false);
       setEditingOption(null);
@@ -316,7 +328,7 @@ export default function ChallengesPage() {
   const deleteOptionMutation = useMutation({
     mutationFn: deleteOption,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["options"] });
+      void queryClient.invalidateQueries({ queryKey: ["options"] });
       toast.success("Option deleted successfully");
     },
     onError: () => {
@@ -622,7 +634,9 @@ export default function ChallengesPage() {
             ? "Update the challenge details"
             : "Add a new challenge to your lesson"
         }
-        onSubmit={challengeForm.handleSubmit(handleSubmitChallenge)}
+        onSubmit={() => {
+          void challengeForm.handleSubmit(handleSubmitChallenge)();
+        }}
         isLoading={createMutation.isPending || updateMutation.isPending}
       >
         <Form {...challengeForm}>
@@ -706,7 +720,9 @@ export default function ChallengesPage() {
             ? "Update the option details"
             : "Add a new option to this challenge"
         }
-        onSubmit={optionForm.handleSubmit(handleSubmitOption)}
+        onSubmit={() => {
+          void optionForm.handleSubmit(handleSubmitOption)();
+        }}
         isLoading={
           createOptionMutation.isPending || updateOptionMutation.isPending
         }

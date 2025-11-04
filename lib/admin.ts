@@ -1,24 +1,35 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 
-export const getIsAdmin = async () => {
+interface ClerkPublicMetadata {
+  role?: string;
+  admin?: boolean;
+  [key: string]: unknown;
+}
+
+// Note: Avoid duplicating global env type augmentations here to prevent conflicts
+
+export const getIsAdmin = async (): Promise<boolean> => {
   const { userId } = await auth();
   const raw = process.env.CLERK_ADMIN_IDS || "";
-  const adminIds = raw ? raw.split(/,\s*/) : [];
+  const adminIds = raw ? raw.split(/\s*,\s*/) : [];
 
   if (!userId) return false;
 
   // Check explicit list fallback
-  if (adminIds.indexOf(userId) !== -1) return true;
+  if (adminIds.includes(userId)) return true;
 
   // Check Clerk user metadata flags
   try {
     const user = await currentUser();
-    const role = (user?.publicMetadata as any)?.role;
-    const adminFlag = (user?.publicMetadata as any)?.admin;
-    if (role === "admin" || adminFlag === true) return true;
-  } catch (_) {
-    // ignore
+    if (!user) return false;
+    
+    const metadata = user.publicMetadata as ClerkPublicMetadata;
+    const role = metadata?.role;
+    const adminFlag = metadata?.admin;
+    
+    return role === "admin" || adminFlag === true;
+  } catch (error) {
+    console.error("Error checking admin status:", error);
+    return false;
   }
-
-  return false;
 };

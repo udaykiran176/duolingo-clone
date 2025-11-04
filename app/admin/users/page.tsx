@@ -1,14 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
 import { useQuery } from "@tanstack/react-query";
 import { Search, ChevronLeft, ChevronRight, Crown, User } from "lucide-react";
 import Image from "next/image";
 
+import { Breadcrumb } from "@/components/admin/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Breadcrumb } from "@/components/admin/breadcrumb";
 import {
   Table,
   TableBody,
@@ -55,7 +56,7 @@ async function fetchUsers(
   }
   const res = await fetch(`/api/users?${params.toString()}`);
   if (!res.ok) throw new Error("Failed to fetch users");
-  return res.json();
+  return (await res.json()) as UsersResponse;
 }
 
 export default function UsersPage() {

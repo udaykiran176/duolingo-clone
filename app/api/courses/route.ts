@@ -1,9 +1,9 @@
+import { desc } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 import db from "@/db/drizzle";
 import { courses } from "@/db/schema";
 import { getIsAdmin } from "@/lib/admin";
-import { eq, desc } from "drizzle-orm";
 
 export async function GET() {
   try {
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
+    const body = (await request.json()) as { title: string; imageSrc: string };
     const { title, imageSrc } = body;
 
     if (!title || !imageSrc) {

@@ -1,9 +1,9 @@
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 import db from "@/db/drizzle";
 import { challenges } from "@/db/schema";
 import { getIsAdmin } from "@/lib/admin";
-import { eq } from "drizzle-orm";
 
 export async function GET(
   request: NextRequest,
@@ -45,15 +45,27 @@ export async function PATCH(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
+    const body = (await request.json()) as {
+      lessonId?: string | number;
+      type?: string;
+      question?: string;
+    };
     const { lessonId, type, question } = body;
 
-    const updateData: any = {};
-    if (question) updateData.question = question;
-    if (type && (type === "SELECT" || type === "ASSIST")) {
+    const updateData: Partial<{
+      question: string;
+      type: 'SELECT' | 'ASSIST';
+      lessonId: number;
+    }> = {};
+    if (typeof question === 'string') updateData.question = question;
+    if (type === "SELECT" || type === "ASSIST") {
       updateData.type = type;
     }
-    if (lessonId) updateData.lessonId = parseInt(lessonId);
+    if (typeof lessonId === 'string' && !isNaN(parseInt(lessonId))) {
+      updateData.lessonId = parseInt(lessonId);
+    } else if (typeof lessonId === 'number') {
+      updateData.lessonId = lessonId;
+    }
 
     const [updatedChallenge] = await db
       .update(challenges)

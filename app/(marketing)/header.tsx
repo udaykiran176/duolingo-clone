@@ -16,7 +16,6 @@ import Link from "next/link";
 
 import Banner from "@/components/banner";
 import { Button } from "@/components/ui/button";
-import { links } from "@/config";
 import { cn } from "@/lib/utils";
 
 const AdminDashboardButton = () => {
@@ -29,15 +28,15 @@ const AdminDashboardButton = () => {
       try {
         const res = await fetch("/api/is-admin", { cache: "no-store" });
         if (!res.ok) throw new Error("Failed to fetch admin status");
-        const data = await res.json();
-        if (isMounted) setIsAdmin(Boolean(data?.isAdmin));
+        const data = (await res.json()) as { isAdmin?: boolean };
+        if (isMounted) setIsAdmin(Boolean(data && data.isAdmin));
       } catch (_) {
         if (isMounted) setIsAdmin(false);
       } finally {
         if (isMounted) setLoading(false);
       }
     };
-    checkAdmin();
+    void checkAdmin();
     return () => {
       isMounted = false;
     };

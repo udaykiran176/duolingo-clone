@@ -26,7 +26,7 @@ const main = async () => {
     // Insert courses
     const courses = await db
       .insert(schema.courses)
-      .values([{ title: "Spanish", imageSrc: "/es.svg" }])
+      .values([{ title: "Olympiads", imageSrc: "/olympiads.svg", order: 1 }])
       .returning();
 
     // For each course, insert units

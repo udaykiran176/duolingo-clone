@@ -1,18 +1,21 @@
 "use client";
 
 import { useState } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus, Edit, Trash2, ExternalLink } from "lucide-react";
-import { toast } from "sonner";
 import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 import * as z from "zod";
 
+import { Breadcrumb } from "@/components/admin/breadcrumb";
+import { DraggableList } from "@/components/admin/draggable-list";
+import { FormDialog } from "@/components/admin/form-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { FormDialog } from "@/components/admin/form-dialog";
 import {
   Form,
   FormControl,
@@ -22,8 +25,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Breadcrumb } from "@/components/admin/breadcrumb";
-import { DraggableList } from "@/components/admin/draggable-list";
 
 const courseSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -42,7 +43,7 @@ type CourseFormData = z.infer<typeof courseSchema>;
 async function fetchCourses(): Promise<Course[]> {
   const res = await fetch("/api/courses");
   if (!res.ok) throw new Error("Failed to fetch courses");
-  return res.json();
+  return (await res.json()) as Course[];
 }
 
 async function createCourse(data: CourseFormData): Promise<Course> {
@@ -52,7 +53,7 @@ async function createCourse(data: CourseFormData): Promise<Course> {
     body: JSON.stringify(data),
   });
   if (!res.ok) throw new Error("Failed to create course");
-  return res.json();
+  return (await res.json()) as Course;
 }
 
 async function updateCourse(
@@ -65,7 +66,7 @@ async function updateCourse(
     body: JSON.stringify(data),
   });
   if (!res.ok) throw new Error("Failed to update course");
-  return res.json();
+  return (await res.json()) as Course;
 }
 
 async function deleteCourse(id: number): Promise<void> {
@@ -82,7 +83,9 @@ async function reorderCourses(items: { id: number; order: number }[]): Promise<v
     body: JSON.stringify({ items }),
   });
   if (!res.ok) {
-    const error = await res.json().catch(() => ({ error: "Failed to reorder courses" }));
+    const error = (await res
+      .json()
+      .catch(() => ({ error: "Failed to reorder courses" }))) as { error?: string; details?: string };
     throw new Error(error.error || error.details || "Failed to reorder courses");
   }
 }
@@ -108,7 +111,7 @@ export default function CoursesPage() {
   const createMutation = useMutation({
     mutationFn: createCourse,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["courses"] });
+      void queryClient.invalidateQueries({ queryKey: ["courses"] });
       toast.success("Course created successfully");
       setIsDialogOpen(false);
       form.reset();
@@ -122,7 +125,7 @@ export default function CoursesPage() {
     mutationFn: ({ id, data }: { id: number; data: CourseFormData }) =>
       updateCourse(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["courses"] });
+      void queryClient.invalidateQueries({ queryKey: ["courses"] });
       toast.success("Course updated successfully");
       setIsDialogOpen(false);
       setEditingCourse(null);
@@ -136,7 +139,7 @@ export default function CoursesPage() {
   const deleteMutation = useMutation({
     mutationFn: deleteCourse,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["courses"] });
+      void queryClient.invalidateQueries({ queryKey: ["courses"] });
       toast.success("Course deleted successfully");
     },
     onError: () => {
@@ -147,7 +150,7 @@ export default function CoursesPage() {
   const reorderMutation = useMutation({
     mutationFn: reorderCourses,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["courses"] });
+      void queryClient.invalidateQueries({ queryKey: ["courses"] });
       toast.success("Courses reordered successfully");
     },
     onError: (error: Error) => {
@@ -274,7 +277,9 @@ export default function CoursesPage() {
             ? "Update the course details"
             : "Add a new course to your platform"
         }
-        onSubmit={form.handleSubmit(handleSubmit)}
+        onSubmit={() => {
+          void form.handleSubmit(handleSubmit)();
+        }}
         isLoading={
           createMutation.isPending || updateMutation.isPending
         }

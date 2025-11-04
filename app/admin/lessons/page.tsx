@@ -1,18 +1,21 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus, Edit, Trash2, ExternalLink, ArrowLeft } from "lucide-react";
-import { toast } from "sonner";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 import * as z from "zod";
 
+import { Breadcrumb } from "@/components/admin/breadcrumb";
+import { DraggableList } from "@/components/admin/draggable-list";
+import { FormDialog } from "@/components/admin/form-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { FormDialog } from "@/components/admin/form-dialog";
 import {
   Form,
   FormControl,
@@ -29,8 +32,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Breadcrumb } from "@/components/admin/breadcrumb";
-import { DraggableList } from "@/components/admin/draggable-list";
 
 const lessonSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -58,14 +59,14 @@ async function fetchLessons(unitId?: string): Promise<Lesson[]> {
   const url = unitId ? `/api/lessons?unitId=${unitId}` : "/api/lessons";
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch lessons");
-  return res.json();
+  return (await res.json()) as Lesson[];
 }
 
 async function fetchUnits(courseId?: string): Promise<Unit[]> {
   const url = courseId ? `/api/units?courseId=${courseId}` : "/api/units";
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch units");
-  return res.json();
+  return (await res.json()) as Unit[];
 }
 
 async function createLesson(data: LessonFormData): Promise<Lesson> {
@@ -75,10 +76,12 @@ async function createLesson(data: LessonFormData): Promise<Lesson> {
     body: JSON.stringify(data),
   });
   if (!res.ok) {
-    const error = await res.json().catch(() => ({ error: "Failed to create lesson" }));
+    const error = (await res
+      .json()
+      .catch(() => ({ error: "Failed to create lesson" }))) as { error?: string };
     throw new Error(error.error || "Failed to create lesson");
   }
-  return res.json();
+  return (await res.json()) as Lesson;
 }
 
 async function updateLesson(
@@ -91,10 +94,12 @@ async function updateLesson(
     body: JSON.stringify(data),
   });
   if (!res.ok) {
-    const error = await res.json().catch(() => ({ error: "Failed to update lesson" }));
+    const error = (await res
+      .json()
+      .catch(() => ({ error: "Failed to update lesson" }))) as { error?: string };
     throw new Error(error.error || "Failed to update lesson");
   }
-  return res.json();
+  return (await res.json()) as Lesson;
 }
 
 async function deleteLesson(id: number): Promise<void> {
@@ -111,7 +116,9 @@ async function reorderLessons(items: { id: number; order: number }[]): Promise<v
     body: JSON.stringify({ items }),
   });
   if (!res.ok) {
-    const error = await res.json().catch(() => ({ error: "Failed to reorder lessons" }));
+    const error = (await res
+      .json()
+      .catch(() => ({ error: "Failed to reorder lessons" }))) as { error?: string; details?: string };
     throw new Error(error.error || error.details || "Failed to reorder lessons");
   }
 }
@@ -151,7 +158,7 @@ export default function LessonsPage() {
   const createMutation = useMutation({
     mutationFn: createLesson,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["lessons"] });
+      void queryClient.invalidateQueries({ queryKey: ["lessons"] });
       toast.success("Lesson created successfully");
       setIsDialogOpen(false);
       form.reset();
@@ -165,7 +172,7 @@ export default function LessonsPage() {
     mutationFn: ({ id, data }: { id: number; data: LessonFormData }) =>
       updateLesson(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["lessons"] });
+      void queryClient.invalidateQueries({ queryKey: ["lessons"] });
       toast.success("Lesson updated successfully");
       setIsDialogOpen(false);
       setEditingLesson(null);
@@ -179,7 +186,7 @@ export default function LessonsPage() {
   const deleteMutation = useMutation({
     mutationFn: deleteLesson,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["lessons"] });
+      void queryClient.invalidateQueries({ queryKey: ["lessons"] });
       toast.success("Lesson deleted successfully");
     },
     onError: () => {
@@ -190,7 +197,7 @@ export default function LessonsPage() {
   const reorderMutation = useMutation({
     mutationFn: reorderLessons,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["lessons"] });
+      void queryClient.invalidateQueries({ queryKey: ["lessons"] });
       toast.success("Lessons reordered successfully");
     },
     onError: (error: Error) => {
@@ -369,7 +376,9 @@ export default function LessonsPage() {
             ? "Update the lesson details"
             : "Add a new lesson to your platform"
         }
-        onSubmit={form.handleSubmit(handleSubmit)}
+        onSubmit={() => {
+          void form.handleSubmit(handleSubmit)();
+        }}
         isLoading={createMutation.isPending || updateMutation.isPending}
       >
         <Form {...form}>

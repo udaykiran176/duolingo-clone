@@ -1,9 +1,9 @@
+import { eq, desc } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 import db from "@/db/drizzle";
 import { lessons } from "@/db/schema";
 import { getIsAdmin } from "@/lib/admin";
-import { eq, desc } from "drizzle-orm";
 
 export async function GET(request: NextRequest) {
   try {
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
+    const body = (await request.json()) as { title: string; unitId: string | number };
     const { title, unitId } = body;
 
     if (!title || !unitId) {
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     const maxOrderResult = await db
       .select({ maxOrder: lessons.order })
       .from(lessons)
-      .where(eq(lessons.unitId, parseInt(unitId)))
+      .where(eq(lessons.unitId, typeof unitId === "string" ? parseInt(unitId) : unitId))
       .orderBy(desc(lessons.order))
       .limit(1);
 
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
       .insert(lessons)
       .values({
         title,
-        unitId: parseInt(unitId),
+        unitId: typeof unitId === "string" ? parseInt(unitId) : unitId,
         order: nextOrder,
       })
       .returning();

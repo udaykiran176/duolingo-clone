@@ -1,18 +1,21 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus, Edit, Trash2, ExternalLink, ArrowLeft } from "lucide-react";
-import { toast } from "sonner";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 import * as z from "zod";
 
+import { Breadcrumb } from "@/components/admin/breadcrumb";
+import { DraggableList } from "@/components/admin/draggable-list";
+import { FormDialog } from "@/components/admin/form-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { FormDialog } from "@/components/admin/form-dialog";
 import {
   Form,
   FormControl,
@@ -29,8 +32,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Breadcrumb } from "@/components/admin/breadcrumb";
-import { DraggableList } from "@/components/admin/draggable-list";
 
 const unitSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -61,13 +62,13 @@ async function fetchUnits(courseId?: string): Promise<Unit[]> {
     : "/api/units";
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch units");
-  return res.json();
+  return (await res.json()) as Unit[];
 }
 
 async function fetchCourses(): Promise<Course[]> {
   const res = await fetch("/api/courses");
   if (!res.ok) throw new Error("Failed to fetch courses");
-  return res.json();
+  return (await res.json()) as Course[];
 }
 
 async function createUnit(data: UnitFormData): Promise<Unit> {
@@ -77,10 +78,12 @@ async function createUnit(data: UnitFormData): Promise<Unit> {
     body: JSON.stringify(data),
   });
   if (!res.ok) {
-    const error = await res.json().catch(() => ({ error: "Failed to create unit" }));
+    const error = (await res
+      .json()
+      .catch(() => ({ error: "Failed to create unit" }))) as { error?: string };
     throw new Error(error.error || "Failed to create unit");
   }
-  return res.json();
+  return (await res.json()) as Unit;
 }
 
 async function updateUnit(
@@ -93,10 +96,12 @@ async function updateUnit(
     body: JSON.stringify(data),
   });
   if (!res.ok) {
-    const error = await res.json().catch(() => ({ error: "Failed to update unit" }));
+    const error = (await res
+      .json()
+      .catch(() => ({ error: "Failed to update unit" }))) as { error?: string };
     throw new Error(error.error || "Failed to update unit");
   }
-  return res.json();
+  return (await res.json()) as Unit;
 }
 
 async function deleteUnit(id: number): Promise<void> {
@@ -113,7 +118,9 @@ async function reorderUnits(items: { id: number; order: number }[]): Promise<voi
     body: JSON.stringify({ items }),
   });
   if (!res.ok) {
-    const error = await res.json().catch(() => ({ error: "Failed to reorder units" }));
+    const error = (await res
+      .json()
+      .catch(() => ({ error: "Failed to reorder units" }))) as { error?: string; details?: string };
     throw new Error(error.error || error.details || "Failed to reorder units");
   }
 }
@@ -154,7 +161,7 @@ export default function UnitsPage() {
   const createMutation = useMutation({
     mutationFn: createUnit,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["units"] });
+      void queryClient.invalidateQueries({ queryKey: ["units"] });
       toast.success("Unit created successfully");
       setIsDialogOpen(false);
       form.reset();
@@ -168,7 +175,7 @@ export default function UnitsPage() {
     mutationFn: ({ id, data }: { id: number; data: UnitFormData }) =>
       updateUnit(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["units"] });
+      void queryClient.invalidateQueries({ queryKey: ["units"] });
       toast.success("Unit updated successfully");
       setIsDialogOpen(false);
       setEditingUnit(null);
@@ -182,7 +189,7 @@ export default function UnitsPage() {
   const deleteMutation = useMutation({
     mutationFn: deleteUnit,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["units"] });
+      void queryClient.invalidateQueries({ queryKey: ["units"] });
       toast.success("Unit deleted successfully");
     },
     onError: () => {
@@ -193,7 +200,7 @@ export default function UnitsPage() {
   const reorderMutation = useMutation({
     mutationFn: reorderUnits,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["units"] });
+      void queryClient.invalidateQueries({ queryKey: ["units"] });
       toast.success("Units reordered successfully");
     },
     onError: (error: Error) => {
@@ -372,7 +379,9 @@ export default function UnitsPage() {
             ? "Update the unit details"
             : "Add a new unit to your platform"
         }
-        onSubmit={form.handleSubmit(handleSubmit)}
+        onSubmit={() => {
+          void form.handleSubmit(handleSubmit)();
+        }}
         isLoading={createMutation.isPending || updateMutation.isPending}
       >
         <Form {...form}>

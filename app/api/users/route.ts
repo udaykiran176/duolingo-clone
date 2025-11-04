@@ -1,9 +1,9 @@
+import { desc, ilike, or } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 import db from "@/db/drizzle";
 import { userProgress, userSubscription, courses } from "@/db/schema";
 import { getIsAdmin } from "@/lib/admin";
-import { desc, ilike, or } from "drizzle-orm";
 
 const DAY_IN_MS = 86_400_000;
 
@@ -43,18 +43,22 @@ export async function GET(request: NextRequest) {
     const total = filteredUsers.length;
 
     // Get paginated user progress
-    let usersQuery = db
-      .select()
-      .from(userProgress)
-      .orderBy(desc(userProgress.points))
-      .limit(limit)
-      .offset(offset);
-
-    if (whereCondition) {
-      usersQuery = usersQuery.where(whereCondition) as any;
-    }
-
-    const usersProgress = await usersQuery;
+    const usersProgress = await (
+      whereCondition
+        ? db
+            .select()
+            .from(userProgress)
+            .where(whereCondition)
+            .orderBy(desc(userProgress.points))
+            .limit(limit)
+            .offset(offset)
+        : db
+            .select()
+            .from(userProgress)
+            .orderBy(desc(userProgress.points))
+            .limit(limit)
+            .offset(offset)
+    );
 
     // Get all subscriptions for these users
     const userIds = usersProgress.map((u) => u.userId);

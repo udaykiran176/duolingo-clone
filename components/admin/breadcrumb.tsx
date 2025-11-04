@@ -1,9 +1,7 @@
 "use client";
 
+import { Home, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { ChevronRight, Home } from "lucide-react";
-
-import { cn } from "@/lib/utils";
 
 type BreadcrumbItem = {
   label: string;

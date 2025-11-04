@@ -7,8 +7,18 @@ const isPublicRoute = createRouteMatcher([
   "/api/webhooks/stripe",
 ]);
 
+const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
+
 export default clerkMiddleware(async (auth, request) => {
-  if (!isPublicRoute(request)) await auth.protect();
+  if (!isPublicRoute(request)) {
+    await auth.protect();
+    
+    // Additional check for admin routes
+    if (isAdminRoute(request)) {
+      // Admin check is done in the layout component
+      // This ensures the user is authenticated
+    }
+  }
 });
 
 export const config = {

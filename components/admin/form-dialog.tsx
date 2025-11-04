@@ -1,0 +1,63 @@
+"use client";
+
+import { ReactNode } from "react";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+
+type FormDialogProps = {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  title: string;
+  description?: string;
+  children: ReactNode;
+  onSubmit: () => void;
+  submitLabel?: string;
+  cancelLabel?: string;
+  isLoading?: boolean;
+};
+
+export function FormDialog({
+  open,
+  onOpenChange,
+  title,
+  description,
+  children,
+  onSubmit,
+  submitLabel = "Save",
+  cancelLabel = "Cancel",
+  isLoading = false,
+}: FormDialogProps) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+          {description && <DialogDescription>{description}</DialogDescription>}
+        </DialogHeader>
+        {children}
+        <DialogFooter>
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => onOpenChange(false)}
+            disabled={isLoading}
+          >
+            {cancelLabel}
+          </Button>
+          <Button type="button" onClick={onSubmit} disabled={isLoading}>
+            {isLoading ? "Saving..." : submitLabel}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+

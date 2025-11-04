@@ -1,0 +1,1 @@
+ALTER TABLE "courses" ADD COLUMN "order" integer NOT NULL;

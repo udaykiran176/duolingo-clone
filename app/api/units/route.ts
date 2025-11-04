@@ -1,30 +1,87 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import db from "@/db/drizzle";
 import { units } from "@/db/schema";
 import { getIsAdmin } from "@/lib/admin";
+import { eq, desc } from "drizzle-orm";
 
-export const GET = async () => {
-  const isAdmin = await getIsAdmin();
-  if (!isAdmin) return new NextResponse("Unauthorized.", { status: 401 });
+export async function GET(request: NextRequest) {
+  try {
+    const isAdmin = await getIsAdmin();
+    if (!isAdmin) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-  const data = await db.query.units.findMany();
+    const { searchParams } = new URL(request.url);
+    const courseId = searchParams.get("courseId");
 
-  return NextResponse.json(data);
-};
+    let allUnits;
+    if (courseId) {
+      allUnits = await db
+        .select()
+        .from(units)
+        .where(eq(units.courseId, parseInt(courseId)))
+        .orderBy(units.order);
+    } else {
+      allUnits = await db.select().from(units).orderBy(units.order);
+    }
 
-export const POST = async (req: NextRequest) => {
-  const isAdmin = await getIsAdmin();
-  if (!isAdmin) return new NextResponse("Unauthorized.", { status: 401 });
+    return NextResponse.json(allUnits);
+  } catch (error) {
+    console.error("Error fetching units:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch units" },
+      { status: 500 }
+    );
+  }
+}
 
-  const body = (await req.json()) as typeof units.$inferSelect;
+export async function POST(request: NextRequest) {
+  try {
+    const isAdmin = await getIsAdmin();
+    if (!isAdmin) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-  const data = await db
-    .insert(units)
-    .values({
-      ...body,
-    })
-    .returning();
+    const body = await request.json();
+    const { title, description, courseId } = body;
 
-  return NextResponse.json(data[0]);
-};
+    if (!title || !description || !courseId) {
+      return NextResponse.json(
+        { error: "Title, description, and courseId are required" },
+        { status: 400 }
+      );
+    }
+
+    // Get the max order value for this course
+    const maxOrderResult = await db
+      .select({ maxOrder: units.order })
+      .from(units)
+      .where(eq(units.courseId, parseInt(courseId)))
+      .orderBy(desc(units.order))
+      .limit(1);
+
+    const nextOrder = maxOrderResult[0]?.maxOrder
+      ? maxOrderResult[0].maxOrder + 1
+      : 1;
+
+    const [newUnit] = await db
+      .insert(units)
+      .values({
+        title,
+        description,
+        courseId: parseInt(courseId),
+        order: nextOrder,
+      })
+      .returning();
+
+    return NextResponse.json(newUnit, { status: 201 });
+  } catch (error) {
+    console.error("Error creating unit:", error);
+    return NextResponse.json(
+      { error: "Failed to create unit" },
+      { status: 500 }
+    );
+  }
+}
+

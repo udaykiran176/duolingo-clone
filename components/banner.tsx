@@ -58,7 +58,7 @@ const Banner = ({ hide, setHide }: BannerProps) => {
               href={`${links.sourceCode}/fork`}
               target="_blank"
               rel="noreferrer noopener"
-              className="text-green-600 transition-opacity hover:opacity-75"
+              className="text-orange-600 transition-opacity hover:opacity-75"
             >
               fork this repo
             </Link>{" "}
@@ -67,7 +67,7 @@ const Banner = ({ hide, setHide }: BannerProps) => {
               href={`mailto:${links.email}`}
               target="_blank"
               rel="noreferrer noopener"
-              className="text-green-600 transition-opacity hover:opacity-75"
+              className="text-orange-600 transition-opacity hover:opacity-75"
             >
               Contact me
             </Link>{" "}

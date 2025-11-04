@@ -1,6 +1,7 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
+import { ThemeProvider } from "next-themes";
 
 import { ExitModal } from "@/components/modals/exit-modal";
 import { HeartsModal } from "@/components/modals/hearts-modal";
@@ -13,7 +14,7 @@ import "./globals.css";
 const font = Nunito({ subsets: ["latin"] });
 
 export const viewport: Viewport = {
-  themeColor: "#22C55E",
+  themeColor: "#081a2e",
 };
 
 export const metadata: Metadata = siteConfig;
@@ -27,21 +28,23 @@ export default function RootLayout({
     <ClerkProvider
       appearance={{
         layout: {
-          logoImageUrl: "/favicon.ico",
+          logoImageUrl: "/smartbit-logo.svg",
         },
         variables: {
-          colorPrimary: "#22C55E",
+          colorPrimary: "#ee9833",
         },
       }}
       afterSignOutUrl="/"
     >
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <body className={font.className}>
-          <Toaster theme="light" richColors closeButton />
-          <ExitModal />
-          <HeartsModal />
-          <PracticeModal />
-          {children}
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <Toaster richColors closeButton />
+            <ExitModal />
+            <HeartsModal />
+            <PracticeModal />
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

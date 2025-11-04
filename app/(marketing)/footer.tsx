@@ -14,7 +14,7 @@ export const Footer = () => {
             width={40}
             className="mr-4 rounded-md"
           />
-          Croatian
+          Olympiads
         </Button>
 
         <Button size="lg" variant="ghost" className="w-full cursor-default">

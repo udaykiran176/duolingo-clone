@@ -19,13 +19,12 @@ export const Sidebar = ({ className }: SidebarProps) => {
         className
       )}
     >
-      <Link href="/learn">
+      <Link href="/">
         <div className="flex items-center gap-x-3 pb-7 pl-4 pt-8">
-          <Image src="/mascot.svg" alt="Mascot" height={40} width={40} />
-
-          <h1 className="text-2xl font-extrabold tracking-wide text-green-600">
-            Lingo
-          </h1>
+          <Image src="/smartbit-logo.svg" alt="Mascot" height={40} width={40} />
+          <h1 className="text-2xl font-extrabold tracking-wide text-black-600">
+              Smart <span className="text-[#ee9833]">Bit</span>
+            </h1>
         </div>
       </Link>
 

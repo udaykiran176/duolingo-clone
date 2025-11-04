@@ -210,20 +210,25 @@ export const getUserSubscription = cache(async () => {
 
   if (!userId) return null;
 
-  const data = await db.query.userSubscription.findFirst({
-    where: eq(userSubscription.userId, userId),
-  });
+  try {
+    const data = await db.query.userSubscription.findFirst({
+      where: eq(userSubscription.userId, userId),
+    });
 
-  if (!data) return null;
+    if (!data) return null;
 
-  const isActive =
-    data.stripePriceId &&
-    data.stripeCurrentPeriodEnd?.getTime() + DAY_IN_MS > Date.now();
+    const isActive =
+      data.stripePriceId &&
+      data.stripeCurrentPeriodEnd?.getTime() + DAY_IN_MS > Date.now();
 
-  return {
-    ...data,
-    isActive: !!isActive,
-  };
+    return {
+      ...data,
+      isActive: !!isActive,
+    };
+  } catch (error) {
+    console.error("Error fetching user subscription:", error);
+    return null;
+  }
 });
 
 export const getTopTenUsers = cache(async () => {

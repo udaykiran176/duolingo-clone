@@ -35,8 +35,8 @@ export const Header = () => {
           <Link href="/" className="flex items-center gap-x-3 pb-7 pl-4 pt-8">
             <Image src="/mascot.svg" alt="Mascot" height={40} width={40} />
 
-            <h1 className="text-2xl font-extrabold tracking-wide text-green-600">
-              Lingo
+            <h1 className="text-2xl font-extrabold tracking-wide text-[#081a2e]">
+              Smart <span className="text-[#ee9833]">Bit</span>
             </h1>
           </Link>
 
@@ -53,19 +53,6 @@ export const Header = () => {
                 </SignInButton>
               </SignedOut>
 
-              <Link
-                href={links.sourceCode}
-                target="_blank"
-                rel="noreferrer noopener"
-                className={isSignedIn ? "pt-1.5" : "pt-3"}
-              >
-                <Image
-                  src="/github.svg"
-                  alt="Source Code"
-                  height={20}
-                  width={20}
-                />
-              </Link>
             </ClerkLoaded>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
-import { ThemeProvider } from "next-themes";
+
 
 import { ExitModal } from "@/components/modals/exit-modal";
 import { HeartsModal } from "@/components/modals/hearts-modal";
@@ -38,13 +38,13 @@ export default function RootLayout({
     >
       <html lang="en" suppressHydrationWarning>
         <body className={font.className}>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          
             <Toaster richColors closeButton />
             <ExitModal />
             <HeartsModal />
             <PracticeModal />
             {children}
-          </ThemeProvider>
+          
         </body>
       </html>
     </ClerkProvider>

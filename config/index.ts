@@ -1,22 +1,11 @@
 import type { Metadata } from "next";
 
 export const siteConfig: Metadata = {
-  title: "Lingo",
+  title: "SmartBit",
   description:
-    "Interactive platform for language learning with lessons, quizzes, and progress tracking.",
+    "Interactive platform for learning with lessons, quizzes, and progress tracking.",
   keywords: [
     "reactjs",
-    "nextjs",
-    "vercel",
-    "react",
-    "duolingo-clone",
-    "learn-language",
-    "shadcn",
-    "shadcn-ui",
-    "radix-ui",
-    "cn",
-    "clsx",
-    "lingo",
     "postgresql",
     "sonner",
     "drizzle",

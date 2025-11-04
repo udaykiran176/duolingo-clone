@@ -51,8 +51,8 @@ const Banner = ({ hide, setHide }: BannerProps) => {
           <p className="text-sm font-normal">
             📢{" "}
             <strong className="font-semibold">
-              Account creation is currently not working
-            </strong>{" "}
+                Account creation is currently not working
+              </strong>{" "}
             due to Clerk&apos;s 500-user limit. To try it out, please{" "}
             <Link
               href={`${links.sourceCode}/fork`}

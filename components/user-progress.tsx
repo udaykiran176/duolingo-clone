@@ -40,7 +40,7 @@ export const UserProgress = ({
           className="h-9 px-2 text-orange-500 lg:h-10 lg:px-3"
         >
           <Image
-            src="/points.svg"
+            src="/points.png"
             height={24}
             width={24}
             alt="Points"
@@ -57,7 +57,7 @@ export const UserProgress = ({
           className="h-9 px-2 text-rose-500 lg:h-10 lg:px-3"
         >
           <Image
-            src="/heart.svg"
+            src="/heart.png"
             height={20}
             width={20}
             alt="Hearts"

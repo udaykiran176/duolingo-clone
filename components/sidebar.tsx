@@ -31,14 +31,14 @@ export const Sidebar = ({ className }: SidebarProps) => {
         </Link>
 
         <div className="flex flex-1 flex-col gap-y-2">
-          <SidebarItem label="Learn" href="/learn" iconSrc="/learn.svg" />
+          <SidebarItem label="Learn" href="/learn" iconSrc="/learn.png" />
           <SidebarItem
             label="Leaderboard"
             href="/leaderboard"
-            iconSrc="/leaderboard.svg"
+            iconSrc="/leaderboard.png"
           />
-          <SidebarItem label="Quests" href="/quests" iconSrc="/quests.svg" />
-          <SidebarItem label="Shop" href="/shop" iconSrc="/shop.svg" />
+          <SidebarItem label="Quests" href="/quests" iconSrc="/quests.png" />
+          <SidebarItem label="Shop" href="/shop" iconSrc="/shop.png" />
         </div>
 
         <div className="p-4">

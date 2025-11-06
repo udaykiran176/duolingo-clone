@@ -1,10 +1,9 @@
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 
 import { FeedWrapper } from "@/components/feed-wrapper";
-import { Promo } from "@/components/promo";
-import { Quests } from "@/components/quests";
 import { StickyWrapper } from "@/components/sticky-wrapper";
-import { UserProgress } from "@/components/user-progress";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   getCourseProgress,
   getLessonPercentage,
@@ -14,7 +13,22 @@ import {
 } from "@/db/queries";
 
 import { Header } from "./header";
-import { Unit } from "./unit";
+import { LearnContent } from "./learn-content";
+
+// Lazy load heavy components
+import dynamic from "next/dynamic";
+
+const Promo = dynamic(() => import("@/components/promo").then((mod) => ({ default: mod.Promo })), {
+  loading: () => <Skeleton className="h-32 w-full" />,
+});
+
+const Quests = dynamic(() => import("@/components/quests").then((mod) => ({ default: mod.Quests })), {
+  loading: () => <Skeleton className="h-32 w-full" />,
+});
+
+const UserProgress = dynamic(() => import("@/components/user-progress").then((mod) => ({ default: mod.UserProgress })), {
+  loading: () => <Skeleton className="h-32 w-full" />,
+});
 
 const LearnPage = async () => {
   const userProgressData = getUserProgress();
@@ -45,31 +59,49 @@ const LearnPage = async () => {
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
       <StickyWrapper>
-        <UserProgress
-          activeCourse={userProgress.activeCourse}
-          hearts={userProgress.hearts}
-          points={userProgress.points}
-          hasActiveSubscription={isPro}
-        />
+        <Suspense fallback={<Skeleton className="h-32 w-full" />}>
+          <UserProgress
+            activeCourse={userProgress.activeCourse}
+            hearts={userProgress.hearts}
+            points={userProgress.points}
+            hasActiveSubscription={isPro}
+          />
+        </Suspense>
 
-        {!isPro && <Promo />}
-        <Quests points={userProgress.points} />
+        {!isPro && (
+          <Suspense fallback={<Skeleton className="h-32 w-full" />}>
+            <Promo />
+          </Suspense>
+        )}
+        <Suspense fallback={<Skeleton className="h-32 w-full" />}>
+          <Quests points={userProgress.points} />
+        </Suspense>
       </StickyWrapper>
       <FeedWrapper>
         <Header title={userProgress.activeCourse.title} />
-        {units.map((unit) => (
-          <div key={unit.id} className="mb-10">
-            <Unit
-              id={unit.id}
-              order={unit.order}
-              description={unit.description}
-              title={unit.title}
-              lessons={unit.lessons}
-              activeLesson={courseProgress.activeLesson}
-              activeLessonPercentage={lessonPercentage}
-            />
-          </div>
-        ))}
+        <Suspense
+          fallback={
+            <div className="space-y-10">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <Skeleton key={i} className="h-64 w-full" />
+              ))}
+            </div>
+          }
+        >
+          <LearnContent
+            units={units}
+            activeLesson={
+              courseProgress.activeLesson
+                ? {
+                    id: courseProgress.activeLesson.id,
+                    title: courseProgress.activeLesson.title,
+                    unitId: courseProgress.activeLesson.unitId,
+                  }
+                : null
+            }
+            activeLessonPercentage={lessonPercentage}
+          />
+        </Suspense>
       </FeedWrapper>
     </div>
   );

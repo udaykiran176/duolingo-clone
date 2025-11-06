@@ -28,11 +28,13 @@ export const Header = ({
 
       <div className="flex items-center font-bold text-rose-500">
         <Image
-          src="/heart.svg"
+          src="/heart.png"
           height={28}
           width={28}
           alt="Heart"
           className="mr-2"
+          priority
+          quality={85}
         />
         {hasActiveSubscription ? (
           <InfinityIcon className="h-6 w-6 shrink-0 stroke-[3]" />

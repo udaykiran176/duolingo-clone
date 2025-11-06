@@ -7,6 +7,7 @@ import {
   Puzzle,
   Users,
   LayoutDashboard,
+  Megaphone,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -19,6 +20,7 @@ const menuItems = [
   { href: "/admin/units", label: "Units", icon: GraduationCap },
   { href: "/admin/lessons", label: "Lessons", icon: FileText },
   { href: "/admin/challenges", label: "Challenges", icon: Puzzle },
+  { href: "/admin/announcements", label: "Announcements", icon: Megaphone },
   { href: "/admin/users", label: "Users", icon: Users },
 ];
 

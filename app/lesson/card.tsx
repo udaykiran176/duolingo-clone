@@ -2,6 +2,7 @@ import { useCallback } from "react";
 
 import Image from "next/image";
 import { useAudio, useKey } from "react-use";
+import { motion } from "framer-motion";
 
 import { challenges } from "@/db/schema";
 import { cn } from "@/lib/utils";
@@ -42,8 +43,11 @@ export const Card = ({
 
   useKey(shortcut, handleClick, {}, [handleClick]);
 
+  const isCorrect = status === "correct";
+  const isWrong = status === "wrong";
+
   return (
-    <div
+    <motion.div
       onClick={handleClick}
       className={cn(
         "h-full cursor-pointer rounded-xl border-2 border-b-4 p-4 hover:bg-black/5 active:border-b-2 lg:p-6",
@@ -57,11 +61,27 @@ export const Card = ({
         disabled && "pointer-events-none hover:bg-white",
         type === "ASSIST" && "w-full lg:p-3"
       )}
+      whileHover={{ scale: disabled ? 1 : 1.02 }}
+      whileTap={{ scale: disabled ? 1 : 0.98 }}
+      animate={{
+        scale: isCorrect ? [1, 1.05, 1] : isWrong ? [1, 0.95, 1] : 1,
+      }}
+      transition={{
+        duration: isCorrect || isWrong ? 0.3 : 0.2,
+        ease: "easeInOut",
+      }}
     >
       {audio}
       {imageSrc && (
         <div className="relative mb-4 aspect-square max-h-[80px] w-full lg:max-h-[150px]">
-          <Image src={imageSrc} fill alt={text} />
+          <Image
+            src={imageSrc}
+            fill
+            alt={text}
+            loading="lazy"
+            sizes="(max-width: 768px) 80px, 150px"
+            className="object-contain"
+          />
         </div>
       )}
 
@@ -96,6 +116,6 @@ export const Card = ({
           {shortcut}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

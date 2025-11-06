@@ -42,6 +42,9 @@ export const Card = ({
         height={70}
         width={93.33}
         className="rounded-lg border object-cover drop-shadow-md"
+        loading="lazy"
+        quality={85}
+        sizes="(max-width: 768px) 93px, 93px"
       />
 
       <p className="mt-3 text-center font-bold text-neutral-700">{title}</p>

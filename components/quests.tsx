@@ -29,7 +29,7 @@ export const Quests = ({ points }: QuestsProps) => {
               className="flex w-full items-center gap-x-3 pb-4"
               key={quest.title}
             >
-              <Image src="/points.svg" alt="Points" width={40} height={40} />
+              <Image src="/points.png" alt="Points" width={40} height={40} />
 
               <div className="flex w-full flex-col gap-y-2">
                 <p className="text-sm font-bold text-neutral-700">

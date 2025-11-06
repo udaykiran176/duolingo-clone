@@ -4,12 +4,16 @@ import { useState, useTransition } from "react";
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import Confetti from "react-confetti";
+import dynamic from "next/dynamic";
 import { useAudio, useWindowSize, useMount } from "react-use";
 import { toast } from "sonner";
 
-import { upsertChallengeProgress } from "@/actions/challenge-progress";
-import { reduceHearts } from "@/actions/user-progress";
+// Lazy load Confetti for better performance
+const Confetti = dynamic(() => import("react-confetti"), {
+  ssr: false,
+});
+
+import { checkAnswer } from "@/actions/challenge-answer";
 import { MAX_HEARTS } from "@/constants";
 import { challengeOptions, challenges, userSubscription } from "@/db/schema";
 import { useHeartsModal } from "@/store/use-hearts-modal";
@@ -95,7 +99,7 @@ export const Quiz = ({
   };
 
   const onContinue = () => {
-    if (!selectedOption) return;
+    if (!selectedOption || !challenge) return;
 
     if (status === "wrong") {
       setStatus("none");
@@ -110,47 +114,35 @@ export const Quiz = ({
       return;
     }
 
-    const correctOption = options.find((option) => option.correct);
+    // Use batched action for better performance
+    startTransition(() => {
+      checkAnswer(challenge.id, selectedOption)
+        .then((response) => {
+          if (response.error === "hearts") {
+            openHeartsModal();
+            return;
+          }
 
-    if (!correctOption) return;
-
-    if (correctOption.id === selectedOption) {
-      startTransition(() => {
-        upsertChallengeProgress(challenge.id)
-          .then((response) => {
-            if (response?.error === "hearts") {
-              openHeartsModal();
-              return;
-            }
-
+          if (response.isCorrect) {
             void correctControls.play();
             setStatus("correct");
             setPercentage((prev) => prev + 100 / challenges.length);
 
             // This is a practice
-            if (initialPercentage === 100) {
-              setHearts((prev) => Math.min(prev + 1, MAX_HEARTS));
+            if (initialPercentage === 100 && response.hearts !== undefined) {
+              setHearts(response.hearts);
             }
-          })
-          .catch(() => toast.error("Something went wrong. Please try again."));
-      });
-    } else {
-      startTransition(() => {
-        reduceHearts(challenge.id)
-          .then((response) => {
-            if (response?.error === "hearts") {
-              openHeartsModal();
-              return;
-            }
-
+          } else {
             void incorrectControls.play();
             setStatus("wrong");
 
-            if (!response?.error) setHearts((prev) => Math.max(prev - 1, 0));
-          })
-          .catch(() => toast.error("Something went wrong. Please try again."));
-      });
-    }
+            if (response.hearts !== undefined) {
+              setHearts(response.hearts);
+            }
+          }
+        })
+        .catch(() => toast.error("Something went wrong. Please try again."));
+    });
   };
 
   if (!challenge) {

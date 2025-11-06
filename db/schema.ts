@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 import {
   boolean,
+  index,
   integer,
   pgEnum,
   pgTable,
@@ -52,7 +53,9 @@ export const lessons = pgTable("lessons", {
     })
     .notNull(),
   order: integer("order").notNull(),
-});
+}, (table) => ({
+  unitIdIdx: index("lessons_unit_id_idx").on(table.unitId),
+}));
 
 export const lessonsRelations = relations(lessons, ({ one, many }) => ({
   unit: one(units, {
@@ -74,7 +77,9 @@ export const challenges = pgTable("challenges", {
   type: challengesEnum("type").notNull(),
   question: text("question").notNull(),
   order: integer("order").notNull(),
-});
+}, (table) => ({
+  lessonIdIdx: index("challenges_lesson_id_idx").on(table.lessonId),
+}));
 
 export const challengesRelations = relations(challenges, ({ one, many }) => ({
   lesson: one(lessons, {
@@ -96,7 +101,9 @@ export const challengeOptions = pgTable("challenge_options", {
   correct: boolean("correct").notNull(),
   imageSrc: text("image_src"),
   audioSrc: text("audio_src"),
-});
+}, (table) => ({
+  challengeIdIdx: index("challenge_options_challenge_id_idx").on(table.challengeId),
+}));
 
 export const challengeOptionsRelations = relations(
   challengeOptions,
@@ -117,7 +124,11 @@ export const challengeProgress = pgTable("challenge_progress", {
     })
     .notNull(),
   completed: boolean("completed").notNull().default(false),
-});
+}, (table) => ({
+  userIdIdx: index("challenge_progress_user_id_idx").on(table.userId),
+  challengeIdIdx: index("challenge_progress_challenge_id_idx").on(table.challengeId),
+  userChallengeIdx: index("challenge_progress_user_challenge_idx").on(table.userId, table.challengeId),
+}));
 
 export const challengeProgressRelations = relations(
   challengeProgress,
@@ -155,3 +166,14 @@ export const userSubscription = pgTable("user_subscription", {
   stripePriceId: text("stripe_price_id").notNull(),
   stripeCurrentPeriodEnd: timestamp("stripe_current_period_end").notNull(),
 });
+
+export const announcements = pgTable("announcements", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  message: text("message").notNull(),
+  link: text("link"),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  isActiveIdx: index("announcements_is_active_idx").on(table.isActive),
+}));

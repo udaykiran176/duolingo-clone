@@ -1,28 +1,50 @@
-import Image from "next/image";
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 
 import { FeedWrapper } from "@/components/feed-wrapper";
-import { Promo } from "@/components/promo";
-import { Quests } from "@/components/quests";
 import { StickyWrapper } from "@/components/sticky-wrapper";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
-import { UserProgress } from "@/components/user-progress";
-import {
-  getTopTenUsers,
-  getUserProgress,
-  getUserSubscription,
-} from "@/db/queries";
+import { getUserProgress, getUserSubscription } from "@/db/queries";
+
+import { LeaderboardContent } from "./leaderboard-content";
+import LeaderboardLoading from "./loading";
+
+// Lazy load heavy components
+import dynamic from "next/dynamic";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const Promo = dynamic(
+  () => import("@/components/promo").then((mod) => ({ default: mod.Promo })),
+  {
+    loading: () => <Skeleton className="h-32 w-full" />,
+  }
+);
+
+const Quests = dynamic(
+  () => import("@/components/quests").then((mod) => ({ default: mod.Quests })),
+  {
+    loading: () => <Skeleton className="h-32 w-full" />,
+  }
+);
+
+const UserProgress = dynamic(
+  () =>
+    import("@/components/user-progress").then((mod) => ({
+      default: mod.UserProgress,
+    })),
+  {
+    loading: () => <Skeleton className="h-32 w-full" />,
+  }
+);
 
 const LeaderboardPage = async () => {
-  const userProgressData = getUserProgress();
-  const userSubscriptionData = getUserSubscription();
-  const leaderboardData = getTopTenUsers();
+  const [userProgressData, userSubscriptionData] = await Promise.all([
+    getUserProgress(),
+    getUserSubscription(),
+  ]);
 
-  const [userProgress, userSubscription, leaderboard] = await Promise.all([
+  const [userProgress, userSubscription] = await Promise.all([
     userProgressData,
     userSubscriptionData,
-    leaderboardData,
   ]);
 
   if (!userProgress || !userProgress.activeCourse) redirect("/courses");
@@ -30,56 +52,32 @@ const LeaderboardPage = async () => {
   const isPro = !!userSubscription?.isActive;
 
   return (
-    <div className="flex flex-row-reverse gap-[48px] px-6">
+    <div className="flex flex-row-reverse gap-[48px]">
       <StickyWrapper>
-        <UserProgress
-          activeCourse={userProgress.activeCourse}
-          hearts={userProgress.hearts}
-          points={userProgress.points}
-          hasActiveSubscription={isPro}
-        />
-        {!isPro && <Promo />}
-        <Quests points={userProgress.points} />
+        <Suspense fallback={<Skeleton className="h-32 w-full" />}>
+          <UserProgress
+            activeCourse={userProgress.activeCourse}
+            hearts={userProgress.hearts}
+            points={userProgress.points}
+            hasActiveSubscription={isPro}
+          />
+        </Suspense>
+
+        {!isPro && (
+          <Suspense fallback={<Skeleton className="h-32 w-full" />}>
+            <Promo />
+          </Suspense>
+        )}
+
+        <Suspense fallback={<Skeleton className="h-32 w-full" />}>
+          <Quests points={userProgress.points} />
+        </Suspense>
       </StickyWrapper>
 
       <FeedWrapper>
-        <div className="flex w-full flex-col items-center">
-          <Image
-            src="/leaderboard.svg"
-            alt="Leaderboard"
-            height={90}
-            width={90}
-          />
-
-          <h1 className="my-6 text-center text-2xl font-bold text-neutral-800">
-            Leaderboard
-          </h1>
-          <p className="mb-6 text-center text-lg text-muted-foreground">
-            See where you stand among other learners in the community.
-          </p>
-
-          <Separator className="mb-4 h-0.5 rounded-full" />
-          {leaderboard.map((userProgress, i) => (
-            <div
-              key={userProgress.userId}
-              className="flex w-full items-center rounded-xl p-2 px-4 hover:bg-gray-200/50"
-            >
-              <p className="mr-4 font-bold text-lime-700">{i + 1}</p>
-
-              <Avatar className="ml-3 mr-6 h-12 w-12 border bg-orange-500">
-                <AvatarImage
-                  src={userProgress.userImageSrc}
-                  className="object-cover"
-                />
-              </Avatar>
-
-              <p className="flex-1 font-bold text-neutral-800">
-                {userProgress.userName}
-              </p>
-              <p className="text-muted-foreground">{userProgress.points} XP</p>
-            </div>
-          ))}
-        </div>
+        <Suspense fallback={<LeaderboardLoading />}>
+          <LeaderboardContent userPoints={userProgress.points} />
+        </Suspense>
       </FeedWrapper>
     </div>
   );

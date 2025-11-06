@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 
 import { Button } from "@/components/ui/button";
+import { usePrefetchLesson } from "@/lib/hooks/use-lesson";
 import { cn } from "@/lib/utils";
 
 import "react-circular-progressbar/dist/styles.css";
@@ -26,6 +27,8 @@ export const LessonButton = ({
   current,
   percentage,
 }: LessonButtonProps) => {
+  const prefetchLesson = usePrefetchLesson();
+
   const cycleLength = 8;
   const cycleIndex = index % cycleLength;
 
@@ -46,11 +49,32 @@ export const LessonButton = ({
 
   const href = isCompleted ? `/lesson/${id}` : "/lesson";
 
+  const handleMouseEnter = () => {
+    if (!locked && isCompleted) {
+      // Prefetch lesson data on hover
+      prefetchLesson(id);
+    }
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (locked) {
+      e.preventDefault();
+      return;
+    }
+    // Prefetch immediately on click
+    if (isCompleted) {
+      prefetchLesson(id);
+    }
+  };
+
   return (
     <Link
       href={href}
       aria-disabled={locked}
       style={{ pointerEvents: locked ? "none" : "auto" }}
+      onMouseEnter={handleMouseEnter}
+      onClick={handleClick}
+      prefetch={!locked}
     >
       <div
         className="relative"

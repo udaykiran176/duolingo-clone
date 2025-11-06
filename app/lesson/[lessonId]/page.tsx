@@ -1,7 +1,9 @@
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 
 import { getLesson, getUserProgress, getUserSubscription } from "@/db/queries";
 
+import LessonLoading from "../loading";
 import { Quiz } from "../quiz";
 
 type LessonIdPageProps = {
@@ -29,13 +31,15 @@ const LessonIdPage = async ({ params }: LessonIdPageProps) => {
     100;
 
   return (
-    <Quiz
-      initialLessonId={lesson.id}
-      initialLessonChallenges={lesson.challenges}
-      initialHearts={userProgress.hearts}
-      initialPercentage={initialPercentage}
-      userSubscription={userSubscription}
-    />
+    <Suspense fallback={<LessonLoading />}>
+      <Quiz
+        initialLessonId={lesson.id}
+        initialLessonChallenges={lesson.challenges}
+        initialHearts={userProgress.hearts}
+        initialPercentage={initialPercentage}
+        userSubscription={userSubscription}
+      />
+    </Suspense>
   );
 };
 

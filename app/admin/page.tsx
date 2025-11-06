@@ -1,4 +1,4 @@
-import { BookOpen, GraduationCap, FileText, Puzzle, Users } from "lucide-react";
+import { BookOpen, GraduationCap, FileText, Puzzle, Users, Megaphone } from "lucide-react";
 import Link from "next/link";
 
 import { Card } from "@/components/ui/card";
@@ -27,6 +27,12 @@ const stats = [
     href: "/admin/challenges",
     icon: Puzzle,
     description: "Manage challenges",
+  },
+  {
+    title: "Announcements",
+    href: "/admin/announcements",
+    icon: Megaphone,
+    description: "Manage announcements",
   },
   {
     title: "Users",

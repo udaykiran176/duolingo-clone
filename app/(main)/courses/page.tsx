@@ -1,23 +1,16 @@
-import { getCourses, getUserProgress } from "@/db/queries";
+import { Suspense } from "react";
 
-import { List } from "./list";
+import { CoursesList } from "./courses-list";
+import CoursesLoading from "./loading";
 
-const CoursesPage = async () => {
-  const coursesData = getCourses();
-  const userProgressData = getUserProgress();
-
-  const [courses, userProgress] = await Promise.all([
-    coursesData,
-    userProgressData,
-  ]);
-
+export default function CoursesPage() {
   return (
     <div className="mx-auto h-full max-w-[912px] px-3">
       <h1 className="text-2xl font-bold text-neutral-700">Select the course</h1>
 
-      <List courses={courses} activeCourseId={userProgress?.activeCourseId} />
+      <Suspense fallback={<CoursesLoading />}>
+        <CoursesList />
+      </Suspense>
     </div>
   );
-};
-
-export default CoursesPage;
+}

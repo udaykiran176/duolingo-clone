@@ -8,6 +8,7 @@ import { HeartsModal } from "@/components/modals/hearts-modal";
 import { PracticeModal } from "@/components/modals/practice-modal";
 import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config";
+import { ReactQueryProvider } from "@/lib/react-query-provider";
 
 import "./globals.css";
 
@@ -38,13 +39,13 @@ export default function RootLayout({
     >
       <html lang="en" suppressHydrationWarning>
         <body className={font.className}>
-          
+          <ReactQueryProvider>
             <Toaster richColors closeButton />
             <ExitModal />
             <HeartsModal />
             <PracticeModal />
             {children}
-          
+          </ReactQueryProvider>
         </body>
       </html>
     </ClerkProvider>

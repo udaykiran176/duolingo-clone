@@ -20,7 +20,7 @@ async function fetchLeaderboard(): Promise<LeaderboardResponse> {
   if (!response.ok) {
     throw new Error("Failed to fetch leaderboard");
   }
-  return response.json();
+  return (await response.json()) as LeaderboardResponse;
 }
 
 export function useLeaderboard() {

@@ -1,10 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { useQuests } from "@/lib/hooks/use-quests";
-import { Progress } from "@/components/ui/progress";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import Image from "next/image";
+
+import { Progress } from "@/components/ui/progress";
+import { useQuests } from "@/lib/hooks/use-quests";
 
 export function QuestsContent() {
   const { data, isLoading, error } = useQuests();

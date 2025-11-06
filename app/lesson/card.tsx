@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { useAudio, useKey } from "react-use";
-import { motion } from "framer-motion";
 
 import { challenges } from "@/db/schema";
 import { cn } from "@/lib/utils";
@@ -31,8 +31,7 @@ export const Card = ({
   disabled,
   type,
 }: CardProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [audio, _, controls] = useAudio({ src: audioSrc || "" });
+  const [audio, , controls] = useAudio({ src: audioSrc || "" });
 
   const handleClick = useCallback(() => {
     if (disabled) return;

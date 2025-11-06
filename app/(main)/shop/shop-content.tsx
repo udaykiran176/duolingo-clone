@@ -1,13 +1,15 @@
 "use client";
 
 import { useTransition } from "react";
+
+import { motion } from "framer-motion";
 import Image from "next/image";
-import { useShop, useRefillHearts } from "@/lib/hooks/use-shop";
+import { toast } from "sonner";
+
 import { createStripeUrl } from "@/actions/user-subscription";
 import { Button } from "@/components/ui/button";
 import { MAX_HEARTS, POINTS_TO_REFILL } from "@/constants";
-import { motion } from "framer-motion";
-import { toast } from "sonner";
+import { useShop, useRefillHearts } from "@/lib/hooks/use-shop";
 
 export function ShopContent() {
   const [pending, startTransition] = useTransition();

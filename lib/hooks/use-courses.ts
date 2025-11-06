@@ -19,7 +19,7 @@ async function fetchCourses(): Promise<CoursesResponse> {
   if (!response.ok) {
     throw new Error("Failed to fetch courses");
   }
-  return response.json();
+  return (await response.json()) as CoursesResponse;
 }
 
 export function useCourses() {
@@ -35,7 +35,7 @@ export function usePrefetchCourses() {
   const queryClient = useQueryClient();
 
   return () => {
-    queryClient.prefetchQuery({
+    void queryClient.prefetchQuery({
       queryKey: ["courses"],
       queryFn: fetchCourses,
       staleTime: 10 * 60 * 1000,

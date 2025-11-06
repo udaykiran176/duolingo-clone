@@ -2,9 +2,9 @@
 
 import { useState, useTransition } from "react";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
 import { useAudio, useWindowSize, useMount } from "react-use";
 import { toast } from "sonner";
 
@@ -14,7 +14,6 @@ const Confetti = dynamic(() => import("react-confetti"), {
 });
 
 import { checkAnswer } from "@/actions/challenge-answer";
-import { MAX_HEARTS } from "@/constants";
 import { challengeOptions, challenges, userSubscription } from "@/db/schema";
 import { useHeartsModal } from "@/store/use-hearts-modal";
 import { usePracticeModal } from "@/store/use-practice-modal";

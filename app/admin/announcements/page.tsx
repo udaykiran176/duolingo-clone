@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus, Edit, Trash2, ToggleLeft, ToggleRight } from "lucide-react";
@@ -26,7 +27,8 @@ const announcementSchema = z.object({
   title: z.string().min(1, "Title is required"),
   message: z.string().min(1, "Message is required"),
   link: z.string().url("Invalid URL").optional().or(z.literal("")),
-  isActive: z.boolean().default(true),
+  // Keep as required boolean; provide default via useForm.defaultValues
+  isActive: z.boolean(),
 });
 
 type Announcement = {
@@ -53,8 +55,8 @@ async function createAnnouncement(data: AnnouncementFormData): Promise<Announcem
     body: JSON.stringify(data),
   });
   if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.error || "Failed to create announcement");
+    const error = (await res.json()) as { error?: string };
+    throw new Error(error.error ?? "Failed to create announcement");
   }
   return (await res.json()) as Announcement;
 }
@@ -69,8 +71,8 @@ async function updateAnnouncement(
     body: JSON.stringify(data),
   });
   if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.error || "Failed to update announcement");
+    const error = (await res.json()) as { error?: string };
+    throw new Error(error.error ?? "Failed to update announcement");
   }
   return (await res.json()) as Announcement;
 }
@@ -80,8 +82,8 @@ async function deleteAnnouncement(id: number): Promise<void> {
     method: "DELETE",
   });
   if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.error || "Failed to delete announcement");
+    const error = (await res.json()) as { error?: string };
+    throw new Error(error.error ?? "Failed to delete announcement");
   }
 }
 
@@ -95,8 +97,8 @@ async function toggleAnnouncementActive(
     body: JSON.stringify({ isActive }),
   });
   if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.error || "Failed to toggle announcement");
+    const error = (await res.json()) as { error?: string };
+    throw new Error(error.error ?? "Failed to toggle announcement");
   }
   return (await res.json()) as Announcement;
 }
@@ -311,9 +313,18 @@ export default function AnnouncementsPage() {
         open={isDialogOpen}
         onOpenChange={setIsDialogOpen}
         title={editingAnnouncement ? "Edit Announcement" : "Create Announcement"}
+        onSubmit={() => { void form.handleSubmit(handleSubmit)(); }}
+        submitLabel={editingAnnouncement ? "Update" : "Create"}
+        isLoading={createMutation.isPending || updateMutation.isPending}
       >
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              void form.handleSubmit(handleSubmit)(e);
+            }}
+            className="space-y-4"
+          >
             <FormField
               control={form.control}
               name="title"
@@ -386,21 +397,7 @@ export default function AnnouncementsPage() {
               )}
             />
 
-            <div className="flex justify-end gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setIsDialogOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={createMutation.isPending || updateMutation.isPending}
-              >
-                {editingAnnouncement ? "Update" : "Create"}
-              </Button>
-            </div>
+            {/* Footer actions are controlled by FormDialog */}
           </form>
         </Form>
       </FormDialog>

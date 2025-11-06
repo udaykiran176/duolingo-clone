@@ -15,7 +15,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { AnnouncementBanner } from "@/components/announcement-banner";
-
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 

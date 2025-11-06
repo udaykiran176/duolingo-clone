@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X } from "lucide-react";
-import Link from "next/link";
+
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
+import Link from "next/link";
 
 type Announcement = {
   id: number;
@@ -20,7 +21,7 @@ async function fetchAnnouncement(): Promise<{ announcement: Announcement | null 
   if (!response.ok) {
     throw new Error("Failed to fetch announcement");
   }
-  return response.json();
+  return (await response.json()) as { announcement: Announcement | null };
 }
 
 export function AnnouncementBanner() {

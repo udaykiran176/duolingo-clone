@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export const Header = () => {
-  const [hideBanner, setHideBanner] = useState(true);
+  const [hideBanner] = useState(true);
 
   return (
     <>

@@ -20,7 +20,7 @@ async function fetchQuests(): Promise<QuestsResponse> {
   if (!response.ok) {
     throw new Error("Failed to fetch quests");
   }
-  return response.json();
+  return (await response.json()) as QuestsResponse;
 }
 
 export function useQuests() {
@@ -37,16 +37,16 @@ export function useCompleteQuest() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (questId: string) => {
-      // This would be a server action in real implementation
-      // For now, we'll just invalidate the cache
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    mutationFn: async (_questId: string) => {
+      // This would be a server action in a real implementation
+      // For now, we'll just simulate a short delay
       await new Promise((resolve) => setTimeout(resolve, 500));
       return { success: true };
     },
     onSuccess: () => {
       // Optimistically update cache
-      queryClient.invalidateQueries({ queryKey: ["quests"] });
+      void queryClient.invalidateQueries({ queryKey: ["quests"] });
     },
   });
 }
-

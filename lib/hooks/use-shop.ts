@@ -14,7 +14,7 @@ async function fetchShopData(): Promise<ShopData> {
   if (!response.ok) {
     throw new Error("Failed to fetch shop data");
   }
-  return response.json();
+  return (await response.json()) as ShopData;
 }
 
 export function useShop() {
@@ -37,7 +37,7 @@ export function useRefillHearts() {
       if (!response.ok) {
         throw new Error("Failed to refill hearts");
       }
-      return response.json();
+      return (await response.json()) as { success?: boolean };
     },
     onMutate: async () => {
       // Cancel outgoing refetches
@@ -68,7 +68,7 @@ export function useRefillHearts() {
       toast.success("Hearts refilled!");
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["shop"] });
+      void queryClient.invalidateQueries({ queryKey: ["shop"] });
     },
   });
 }

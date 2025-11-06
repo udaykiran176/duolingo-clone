@@ -1,4 +1,6 @@
 import { Suspense } from "react";
+
+import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 
 import { FeedWrapper } from "@/components/feed-wrapper";
@@ -6,11 +8,10 @@ import { StickyWrapper } from "@/components/sticky-wrapper";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getUserProgress, getUserSubscription } from "@/db/queries";
 
-import { ShopContent } from "./shop-content";
 import ShopLoading from "./loading";
+import { ShopContent } from "./shop-content";
 
 // Lazy load heavy components
-import dynamic from "next/dynamic";
 
 const Quests = dynamic(
   () => import("@/components/quests").then((mod) => ({ default: mod.Quests })),

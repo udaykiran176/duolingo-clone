@@ -1,4 +1,6 @@
 import { Suspense } from "react";
+
+import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 
 import { FeedWrapper } from "@/components/feed-wrapper";
@@ -14,9 +16,6 @@ import {
 
 import { Header } from "./header";
 import { LearnContent } from "./learn-content";
-
-// Lazy load heavy components
-import dynamic from "next/dynamic";
 
 const Promo = dynamic(() => import("@/components/promo").then((mod) => ({ default: mod.Promo })), {
   loading: () => <Skeleton className="h-32 w-full" />,

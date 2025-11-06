@@ -1,16 +1,15 @@
 import { Suspense } from "react";
+
+import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 
 import { FeedWrapper } from "@/components/feed-wrapper";
 import { StickyWrapper } from "@/components/sticky-wrapper";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getUserProgress, getUserSubscription } from "@/db/queries";
 
 import { LeaderboardContent } from "./leaderboard-content";
 import LeaderboardLoading from "./loading";
-
-// Lazy load heavy components
-import dynamic from "next/dynamic";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const Promo = dynamic(
   () => import("@/components/promo").then((mod) => ({ default: mod.Promo })),
@@ -76,7 +75,7 @@ const LeaderboardPage = async () => {
 
       <FeedWrapper>
         <Suspense fallback={<LeaderboardLoading />}>
-          <LeaderboardContent userPoints={userProgress.points} />
+          <LeaderboardContent />
         </Suspense>
       </FeedWrapper>
     </div>

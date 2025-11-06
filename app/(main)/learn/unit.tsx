@@ -1,4 +1,4 @@
-import { lessons, units } from "@/db/schema";
+import { lessons } from "@/db/schema";
 
 import { LessonButton } from "./lesson-button";
 import { UnitBanner } from "./unit-banner";

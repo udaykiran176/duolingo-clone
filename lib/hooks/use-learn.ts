@@ -37,7 +37,7 @@ async function fetchLearnData(): Promise<LearnData> {
   if (!response.ok) {
     throw new Error("Failed to fetch learn data");
   }
-  return response.json();
+  return (await response.json()) as LearnData;
 }
 
 export function useLearn() {
@@ -54,12 +54,12 @@ export function usePrefetchNextLesson() {
 
   return (lessonId: number) => {
     // Prefetch the next lesson data
-    queryClient.prefetchQuery({
+    void queryClient.prefetchQuery({
       queryKey: ["lesson", lessonId],
       queryFn: async () => {
         const response = await fetch(`/api/lessons/${lessonId}`);
         if (!response.ok) throw new Error("Failed to fetch lesson");
-        return response.json();
+        return (await response.json()) as unknown;
       },
       staleTime: 5 * 60 * 1000,
     });

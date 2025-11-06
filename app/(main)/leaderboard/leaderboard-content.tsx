@@ -1,16 +1,13 @@
 "use client";
 
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { useLeaderboard } from "@/lib/hooks/use-leaderboard";
+
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { motion, AnimatePresence } from "framer-motion";
+import { useLeaderboard } from "@/lib/hooks/use-leaderboard";
 
-type LeaderboardContentProps = {
-  userPoints: number;
-};
-
-export function LeaderboardContent({ userPoints }: LeaderboardContentProps) {
+export function LeaderboardContent() {
   const { data, isLoading, error } = useLeaderboard();
 
   if (isLoading) {

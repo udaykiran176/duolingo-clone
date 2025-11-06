@@ -1,9 +1,9 @@
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-import { getIsAdmin } from "@/lib/admin";
 import db from "@/db/drizzle";
 import { announcements } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { getIsAdmin } from "@/lib/admin";
 
 export async function PATCH(
   request: NextRequest,
@@ -20,7 +20,12 @@ export async function PATCH(
       return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
     }
 
-    const body = await request.json();
+    const body = (await request.json()) as {
+      title?: string;
+      message?: string;
+      link?: string | null;
+      isActive?: boolean;
+    };
     const { title, message, link, isActive } = body;
 
     const updateData: {

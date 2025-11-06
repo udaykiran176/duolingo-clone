@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useTransition, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo } from "react";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Confetti from "react-confetti";
 import { useAudio, useWindowSize, useMount } from "react-use";
 import { toast } from "sonner";
-import { motion, AnimatePresence } from "framer-motion";
 
 import { checkAnswer } from "@/actions/challenge-answer";
 import { MAX_HEARTS } from "@/constants";
@@ -44,8 +44,8 @@ export const QuizOptimized = ({
   initialLessonChallenges,
   userSubscription,
 }: QuizProps) => {
-  const [correctAudio, _c, correctControls] = useAudio({ src: "/correct.wav" });
-  const [incorrectAudio, _i, incorrectControls] = useAudio({
+  const [correctAudio, , correctControls] = useAudio({ src: "/correct.wav" });
+  const [incorrectAudio, , incorrectControls] = useAudio({
     src: "/incorrect.wav",
   });
   const [finishAudio] = useAudio({
@@ -65,7 +65,6 @@ export const QuizOptimized = ({
 
   const [lessonId] = useState(initialLessonId);
   const [hearts, setHearts] = useState(initialHearts);
-  const [points, setPoints] = useState(0);
   const [percentage, setPercentage] = useState(() => {
     return initialPercentage === 100 ? 0 : initialPercentage;
   });
@@ -81,7 +80,6 @@ export const QuizOptimized = ({
 
   const [selectedOption, setSelectedOption] = useState<number>();
   const [status, setStatus] = useState<"none" | "wrong" | "correct">("none");
-  const [isAnimating, setIsAnimating] = useState(false);
 
   const challenge = challenges[activeIndex];
   const options = challenge?.challengeOptions ?? [];
@@ -96,7 +94,7 @@ export const QuizOptimized = ({
   const answerMutation = useMutation({
     mutationFn: ({ challengeId, optionId }: { challengeId: number; optionId: number }) =>
       checkAnswer(challengeId, optionId),
-    onMutate: async ({ optionId }) => {
+    onMutate: ({ optionId }) => {
       // Optimistic update - show feedback immediately
       const correctOption = options.find((opt) => opt.correct);
       const isCorrect = correctOption?.id === optionId;
@@ -130,12 +128,10 @@ export const QuizOptimized = ({
       if (data.hearts !== undefined) {
         setHearts(data.hearts);
       }
-      if (data.points !== undefined) {
-        setPoints(data.points);
-      }
+      // data.points ignored (not displayed here)
 
       // Invalidate queries to sync cache
-      queryClient.invalidateQueries({ queryKey: ["lesson", lessonId] });
+      void queryClient.invalidateQueries({ queryKey: ["lesson", lessonId] });
     },
     onError: (error) => {
       // Revert optimistic updates on error
@@ -147,13 +143,11 @@ export const QuizOptimized = ({
   });
 
   const onNext = useCallback(() => {
-    setIsAnimating(true);
     // Use requestAnimationFrame for smooth transition
     requestAnimationFrame(() => {
       setActiveIndex((current) => current + 1);
       setStatus("none");
       setSelectedOption(undefined);
-      setIsAnimating(false);
     });
   }, []);
 

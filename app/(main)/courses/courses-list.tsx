@@ -1,9 +1,10 @@
 "use client";
 
 import { useTransition } from "react";
-import { useRouter } from "next/navigation";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+
+import { useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { upsertUserProgress } from "@/actions/user-progress";
@@ -30,7 +31,7 @@ export function CoursesList() {
       upsertUserProgress(id)
         .then(() => {
           // Invalidate and refetch courses
-          queryClient.invalidateQueries({ queryKey: ["courses"] });
+          void queryClient.invalidateQueries({ queryKey: ["courses"] });
           router.push("/learn");
         })
         .catch(() => toast.error("Something went wrong."));

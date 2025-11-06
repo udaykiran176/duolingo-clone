@@ -43,7 +43,7 @@ async function fetchLesson(lessonId: number): Promise<LessonResponse> {
   if (!response.ok) {
     throw new Error("Failed to fetch lesson");
   }
-  return response.json();
+  return (await response.json()) as LessonResponse;
 }
 
 export function useLesson(lessonId: number) {
@@ -60,7 +60,7 @@ export function usePrefetchLesson() {
   const queryClient = useQueryClient();
 
   return (lessonId: number) => {
-    queryClient.prefetchQuery({
+    void queryClient.prefetchQuery({
       queryKey: ["lesson", lessonId],
       queryFn: () => fetchLesson(lessonId),
       staleTime: 5 * 60 * 1000,

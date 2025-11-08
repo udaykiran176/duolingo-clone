@@ -1,5 +1,6 @@
 // File: app/api/upload-auth/route.ts
 import { getUploadAuthParams } from "@imagekit/next/server";
+import { randomUUID } from "crypto";
 
 export const runtime = "nodejs";
 
@@ -19,12 +20,16 @@ export function GET() {
             );
         }
 
+        // Generate a unique token (V4 UUID) for each request
+        const token = randomUUID();
+
         // Calculate expire time as 30 minutes from now (within 1 hour limit)
         const expireTime = Math.floor(Date.now() / 1000) + 30 * 60; // 30 minutes in seconds
 
-        const { token, expire, signature } = getUploadAuthParams({
+        const { expire, signature } = getUploadAuthParams({
             privateKey,
             publicKey,
+            token,
             expire: expireTime,
         });
 

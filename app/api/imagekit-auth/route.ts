@@ -18,9 +18,13 @@ export function GET() {
             );
         }
 
+        // Calculate expire time as 30 minutes from now (within 1 hour limit)
+        const expireTime = Math.floor(Date.now() / 1000) + 30 * 60; // 30 minutes in seconds
+
         const { token, expire, signature } = getUploadAuthParams({
             privateKey,
             publicKey,
+            expire: expireTime,
         });
 
         return Response.json(

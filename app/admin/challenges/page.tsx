@@ -21,6 +21,7 @@ import * as z from "zod";
 import { Breadcrumb } from "@/components/admin/breadcrumb";
 import { DraggableList } from "@/components/admin/draggable-list";
 import { FormDialog } from "@/components/admin/form-dialog";
+import { ImageUpload } from "@/components/admin/image-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -46,6 +47,8 @@ const challengeSchema = z.object({
     message: "Type is required",
   }),
   question: z.string().min(1, "Question is required"),
+  imageSrc: z.string().optional(),
+  randomOrder: z.boolean().optional(),
 });
 
 const optionSchema = z.object({
@@ -53,6 +56,7 @@ const optionSchema = z.object({
   correct: z.boolean(),
   imageSrc: z.string().optional(),
   audioSrc: z.string().optional(),
+  order: z.number().optional(),
 });
 
 type Challenge = {
@@ -60,6 +64,8 @@ type Challenge = {
   lessonId: number;
   type: "SELECT" | "ASSIST";
   question: string;
+  imageSrc: string | null;
+  randomOrder: boolean;
   order: number;
 };
 
@@ -70,6 +76,7 @@ type ChallengeOption = {
   correct: boolean;
   imageSrc: string | null;
   audioSrc: string | null;
+  order: number;
 };
 
 type Lesson = {
@@ -194,6 +201,20 @@ async function deleteOption(id: number): Promise<void> {
   if (!res.ok) throw new Error("Failed to delete option");
 }
 
+async function reorderOptions(items: { id: number; order: number }[]): Promise<void> {
+  const res = await fetch("/api/challenge-options/reorder", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ items }),
+  });
+  if (!res.ok) {
+    const error = (await res
+      .json()
+      .catch(() => ({ error: "Failed to reorder options" }))) as { error?: string; details?: string };
+    throw new Error(error.error || error.details || "Failed to reorder options");
+  }
+}
+
 export default function ChallengesPage() {
   const queryClient = useQueryClient();
   const searchParams = useSearchParams();
@@ -211,6 +232,8 @@ export default function ChallengesPage() {
       lessonId: lessonIdParam || "",
       type: "SELECT",
       question: "",
+      imageSrc: "",
+      randomOrder: false,
     },
   });
 
@@ -221,6 +244,7 @@ export default function ChallengesPage() {
       correct: false,
       imageSrc: "",
       audioSrc: "",
+      order: undefined,
     },
   });
 
@@ -336,6 +360,17 @@ export default function ChallengesPage() {
     },
   });
 
+  const reorderOptionsMutation = useMutation({
+    mutationFn: reorderOptions,
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["options"] });
+      toast.success("Options reordered successfully");
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || "Failed to reorder options");
+    },
+  });
+
   const handleOpenDialog = (challenge?: Challenge) => {
     if (challenge) {
       setEditingChallenge(challenge);
@@ -343,6 +378,8 @@ export default function ChallengesPage() {
         lessonId: challenge.lessonId.toString(),
         type: challenge.type,
         question: challenge.question,
+        imageSrc: challenge.imageSrc || "",
+        randomOrder: challenge.randomOrder,
       });
     } else {
       setEditingChallenge(null);
@@ -350,6 +387,8 @@ export default function ChallengesPage() {
         lessonId: lessonIdParam || "",
         type: "SELECT",
         question: "",
+        imageSrc: "",
+        randomOrder: false,
       });
     }
     setIsDialogOpen(true);
@@ -372,6 +411,7 @@ export default function ChallengesPage() {
         correct: option.correct,
         imageSrc: option.imageSrc || "",
         audioSrc: option.audioSrc || "",
+        order: option.order,
       });
     } else {
       setEditingOption(null);
@@ -380,6 +420,7 @@ export default function ChallengesPage() {
         correct: false,
         imageSrc: "",
         audioSrc: "",
+        order: undefined,
       });
     }
     setIsOptionDialogOpen(true);
@@ -523,6 +564,12 @@ export default function ChallengesPage() {
                           </div>
                           <p className="mt-1 text-sm text-muted-foreground">
                             Order: {challenge.order}
+                            {challenge.imageSrc && (
+                              <span className="ml-2">• Image: {challenge.imageSrc}</span>
+                            )}
+                            {challenge.randomOrder && (
+                              <span className="ml-2">• Random Order</span>
+                            )}
                           </p>
                         </div>
                       </div>
@@ -547,8 +594,16 @@ export default function ChallengesPage() {
                               No options yet. Add one to get started.
                             </p>
                           ) : (
-                            <div className="space-y-2">
-                              {challengeOptions.map((option) => (
+                            <DraggableList
+                              items={challengeOptions}
+                              onReorder={(newItems) => {
+                                const itemsWithOrder = newItems.map((item, index) => ({
+                                  id: item.id,
+                                  order: index + 1,
+                                }));
+                                reorderOptionsMutation.mutate(itemsWithOrder);
+                              }}
+                              renderItem={(option) => (
                                 <Card key={option.id}>
                                   <CardContent className="flex items-center justify-between p-3">
                                     <div className="flex items-center gap-3">
@@ -559,6 +614,9 @@ export default function ChallengesPage() {
                                       )}
                                       <div>
                                         <p className="font-medium">{option.text}</p>
+                                        <p className="text-xs text-muted-foreground">
+                                          Order: {option.order}
+                                        </p>
                                         {(option.imageSrc || option.audioSrc) && (
                                           <div className="mt-1 flex gap-2 text-xs text-muted-foreground">
                                             {option.imageSrc && (
@@ -594,8 +652,8 @@ export default function ChallengesPage() {
                                     </div>
                                   </CardContent>
                                 </Card>
-                              ))}
-                            </div>
+                              )}
+                            />
                           )}
                         </div>
                       )}
@@ -706,6 +764,43 @@ export default function ChallengesPage() {
                 </FormItem>
               )}
             />
+            <FormField
+              control={challengeForm.control}
+              name="imageSrc"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <ImageUpload
+                      value={field.value || ""}
+                      onChange={(url) => field.onChange(url || "")}
+                      folder="/challenges/"
+                      disabled={createMutation.isPending || updateMutation.isPending}
+                      label="Question Image (optional)"
+                      placeholder="e.g., /images/hello.png or upload image"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={challengeForm.control}
+              name="randomOrder"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2 space-y-0">
+                  <FormControl>
+                    <input
+                      type="checkbox"
+                      checked={field.value}
+                      onChange={field.onChange}
+                      className="h-4 w-4 rounded border-gray-300"
+                    />
+                  </FormControl>
+                  <FormLabel className="!mt-0">Random Order (shuffle options)</FormLabel>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
         </Form>
       </FormDialog>
@@ -765,9 +860,15 @@ export default function ChallengesPage() {
               name="imageSrc"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Image Source (optional)</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., /images/hello.png" {...field} />
+                    <ImageUpload
+                      value={field.value || ""}
+                      onChange={(url) => field.onChange(url || "")}
+                      folder="/challenge-options/"
+                      disabled={createOptionMutation.isPending || updateOptionMutation.isPending}
+                      label="Option Image (optional)"
+                      placeholder="e.g., /images/hello.png or upload image"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -781,6 +882,28 @@ export default function ChallengesPage() {
                   <FormLabel>Audio Source (optional)</FormLabel>
                   <FormControl>
                     <Input placeholder="e.g., /audio/hello.mp3" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={optionForm.control}
+              name="order"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Order (optional)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="Auto-assigned if empty"
+                      {...field}
+                      value={field.value ?? ""}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        field.onChange(value === "" ? undefined : parseInt(value, 10));
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

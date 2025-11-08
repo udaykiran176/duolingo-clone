@@ -76,6 +76,8 @@ export const challenges = pgTable("challenges", {
     .notNull(),
   type: challengesEnum("type").notNull(),
   question: text("question").notNull(),
+  imageSrc: text("image_src"),
+  randomOrder: boolean("random_order").notNull().default(false),
   order: integer("order").notNull(),
 }, (table) => ({
   lessonIdIdx: index("challenges_lesson_id_idx").on(table.lessonId),
@@ -101,6 +103,7 @@ export const challengeOptions = pgTable("challenge_options", {
   correct: boolean("correct").notNull(),
   imageSrc: text("image_src"),
   audioSrc: text("audio_src"),
+  order: integer("order").notNull(),
 }, (table) => ({
   challengeIdIdx: index("challenge_options_challenge_id_idx").on(table.challengeId),
 }));

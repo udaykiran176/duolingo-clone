@@ -82,7 +82,21 @@ export const QuizOptimized = ({
   const [status, setStatus] = useState<"none" | "wrong" | "correct">("none");
 
   const challenge = challenges[activeIndex];
-  const options = challenge?.challengeOptions ?? [];
+  const options = useMemo(() => {
+    if (!challenge?.challengeOptions) return [];
+    const opts = [...challenge.challengeOptions];
+    if (challenge.randomOrder) {
+      // Shuffle array using Fisher-Yates algorithm
+      for (let i = opts.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [opts[i], opts[j]] = [opts[j], opts[i]];
+      }
+    } else {
+      // Sort by order field
+      opts.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    }
+    return opts;
+  }, [challenge]);
 
   // Calculate progress increment
   const progressIncrement = useMemo(
@@ -190,7 +204,7 @@ export const QuizOptimized = ({
         />
         <div className="mx-auto flex h-full max-w-lg flex-col items-center justify-center gap-y-4 text-center lg:gap-y-8">
           <Image
-            src="/finish.svg"
+            src="/finish.png"
             alt="Finish"
             className="hidden lg:block"
             height={100}
@@ -199,7 +213,7 @@ export const QuizOptimized = ({
           />
 
           <Image
-            src="/finish.svg"
+            src="/finish.png"
             alt="Finish"
             className="block lg:hidden"
             height={100}
@@ -208,7 +222,7 @@ export const QuizOptimized = ({
           />
 
           <h1 className="text-lg font-bold text-neutral-700 lg:text-3xl">
-            Great job! <br /> You&apos;ve completed the lesson.
+          Smart hit! <br />challenges cleared — next quiz unlocked 🎯
           </h1>
 
           <div className="flex w-full items-center gap-x-4">
@@ -259,9 +273,21 @@ export const QuizOptimized = ({
                 {title}
               </h1>
 
+              {challenge.imageSrc && (
+                <div className="relative my-4 aspect-video w-full max-w-md mx-auto lg:max-w-lg">
+                  <Image
+                    src={challenge.imageSrc}
+                    alt={challenge.question}
+                    fill
+                    className="object-contain rounded-lg"
+                    sizes="(max-width: 768px) 100vw, 600px"
+                  />
+                </div>
+              )}
+
               <div>
                 {challenge.type === "ASSIST" && (
-                  <QuestionBubble question={challenge.question} />
+                  <QuestionBubble question={challenge.question} imageSrc={challenge.imageSrc} />
                 )}
 
                 <Challenge

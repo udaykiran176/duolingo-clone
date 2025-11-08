@@ -22,6 +22,20 @@
       "when": 1762406474602,
       "tag": "0002_worthless_alex_wilder",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1762568275231,
+      "tag": "0003_rapid_husk",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1762569994931,
+      "tag": "0004_steep_yellow_claw",
+      "breakpoints": true
     }
   ]
 }

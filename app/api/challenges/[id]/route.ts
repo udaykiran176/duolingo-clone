@@ -49,13 +49,17 @@ export async function PATCH(
       lessonId?: string | number;
       type?: string;
       question?: string;
+      imageSrc?: string;
+      randomOrder?: boolean;
     };
-    const { lessonId, type, question } = body;
+    const { lessonId, type, question, imageSrc, randomOrder } = body;
 
     const updateData: Partial<{
       question: string;
       type: 'SELECT' | 'ASSIST';
       lessonId: number;
+      imageSrc: string | null;
+      randomOrder: boolean;
     }> = {};
     if (typeof question === 'string') updateData.question = question;
     if (type === "SELECT" || type === "ASSIST") {
@@ -65,6 +69,12 @@ export async function PATCH(
       updateData.lessonId = parseInt(lessonId);
     } else if (typeof lessonId === 'number') {
       updateData.lessonId = lessonId;
+    }
+    if (imageSrc !== undefined) {
+      updateData.imageSrc = imageSrc && imageSrc.trim() !== "" ? imageSrc : null;
+    }
+    if (randomOrder !== undefined) {
+      updateData.randomOrder = randomOrder;
     }
 
     const [updatedChallenge] = await db

@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, desc, asc } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 import db from "@/db/drizzle";
@@ -25,7 +25,8 @@ export async function GET(request: NextRequest) {
     const options = await db
       .select()
       .from(challengeOptions)
-      .where(eq(challengeOptions.challengeId, parseInt(challengeId)));
+      .where(eq(challengeOptions.challengeId, parseInt(challengeId)))
+      .orderBy(asc(challengeOptions.order));
 
     return NextResponse.json(options);
   } catch (error) {
@@ -50,8 +51,9 @@ export async function POST(request: NextRequest) {
       correct: boolean;
       imageSrc?: string | null;
       audioSrc?: string | null;
+      order?: number;
     };
-    const { challengeId, text, correct, imageSrc, audioSrc } = body;
+    const { challengeId, text, correct, imageSrc, audioSrc, order } = body;
 
     if (!challengeId || !text || typeof correct !== "boolean") {
       return NextResponse.json(
@@ -59,6 +61,16 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    // Get the max order value for this challenge
+    const maxOrderResult = await db
+      .select({ maxOrder: challengeOptions.order })
+      .from(challengeOptions)
+      .where(eq(challengeOptions.challengeId, typeof challengeId === "string" ? parseInt(challengeId) : challengeId))
+      .orderBy(desc(challengeOptions.order))
+      .limit(1);
+
+    const nextOrder = order !== undefined ? order : (maxOrderResult[0]?.maxOrder ? maxOrderResult[0].maxOrder + 1 : 1);
 
     const [newOption] = await db
       .insert(challengeOptions)
@@ -68,6 +80,7 @@ export async function POST(request: NextRequest) {
         correct: Boolean(correct),
         imageSrc: imageSrc || null,
         audioSrc: audioSrc || null,
+        order: nextOrder,
       })
       .returning();
 

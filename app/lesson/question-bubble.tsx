@@ -2,9 +2,10 @@ import Image from "next/image";
 
 type QuestionBubbleProps = {
   question: string;
+  imageSrc?: string | null;
 };
 
-export const QuestionBubble = ({ question }: QuestionBubbleProps) => {
+export const QuestionBubble = ({ question, imageSrc }: QuestionBubbleProps) => {
   return (
     <div className="mb-6 flex items-center gap-x-4">
       <Image
@@ -23,6 +24,17 @@ export const QuestionBubble = ({ question }: QuestionBubbleProps) => {
       />
 
       <div className="relative rounded-xl border-2 px-4 py-2 text-sm lg:text-base">
+        {imageSrc && (
+          <div className="relative mb-2 aspect-video w-full max-w-xs">
+            <Image
+              src={imageSrc}
+              alt={question}
+              fill
+              className="object-contain rounded-lg"
+              sizes="(max-width: 768px) 100vw, 300px"
+            />
+          </div>
+        )}
         {question}
 
         <div

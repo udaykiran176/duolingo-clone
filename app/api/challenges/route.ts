@@ -47,8 +47,10 @@ export async function POST(request: NextRequest) {
       lessonId: string | number;
       type: string;
       question: string;
+      imageSrc?: string;
+      randomOrder?: boolean;
     };
-    const { lessonId, type, question } = body;
+    const { lessonId, type, question, imageSrc, randomOrder } = body;
 
     if (!lessonId || !type || !question) {
       return NextResponse.json(
@@ -85,6 +87,8 @@ export async function POST(request: NextRequest) {
         lessonId: typeof lessonId === "string" ? parseInt(lessonId) : lessonId,
         type: challengeType,
         question,
+        imageSrc: imageSrc && imageSrc.trim() !== "" ? imageSrc : null,
+        randomOrder: randomOrder ?? false,
         order: nextOrder,
       })
       .returning();

@@ -20,19 +20,22 @@ export async function PATCH(
       correct?: boolean;
       imageSrc?: string | null;
       audioSrc?: string | null;
+      order?: number;
     };
-    const { text, correct, imageSrc, audioSrc } = body;
+    const { text, correct, imageSrc, audioSrc, order } = body;
 
     const updateData: Partial<{
       text: string;
       correct: boolean;
       imageSrc: string | null;
       audioSrc: string | null;
+      order: number;
     }> = {};
     if (text !== undefined) updateData.text = text;
     if (typeof correct === "boolean") updateData.correct = correct;
     if (imageSrc !== undefined) updateData.imageSrc = imageSrc || null;
     if (audioSrc !== undefined) updateData.audioSrc = audioSrc || null;
+    if (order !== undefined) updateData.order = order;
 
     const [updatedOption] = await db
       .update(challengeOptions)

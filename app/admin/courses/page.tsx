@@ -14,6 +14,7 @@ import * as z from "zod";
 import { Breadcrumb } from "@/components/admin/breadcrumb";
 import { DraggableList } from "@/components/admin/draggable-list";
 import { FormDialog } from "@/components/admin/form-dialog";
+import { ImageUpload } from "@/components/admin/image-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -304,11 +305,14 @@ export default function CoursesPage() {
               name="imageSrc"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Image Source</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="e.g., /es.svg"
-                      {...field}
+                    <ImageUpload
+                      value={field.value}
+                      onChange={field.onChange}
+                      folder="/courses/"
+                      disabled={createMutation.isPending || updateMutation.isPending}
+                      label="Course Image"
+                      placeholder="e.g., /es.svg or upload image"
                     />
                   </FormControl>
                   <FormMessage />

@@ -231,13 +231,13 @@ export const Quiz = ({
             </h1>
 
             {challenge.imageSrc && (
-              <div className="relative my-4 aspect-video w-full max-w-md mx-auto lg:max-w-lg">
+              <div className="relative aspect-video w-full h-32 mx-auto">
                 <Image
                   src={challenge.imageSrc}
                   alt={challenge.question}
                   fill
                   className="object-contain rounded-lg"
-                  sizes="(max-width: 768px) 100vw, 600px"
+                  sizes="(max-width: 200px) 100vw, 200px"
                 />
               </div>
             )}

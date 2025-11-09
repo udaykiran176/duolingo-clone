@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useMemo } from "react";
+import { useState, useTransition, useMemo, useEffect, useRef } from "react";
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -82,7 +82,8 @@ export const Quiz = ({
   });
 
   const [selectedOption, setSelectedOption] = useState<number>();
-  const [status, setStatus] = useState<"none" | "wrong" | "correct">("none");
+  const [status, setStatus] = useState<"none" | "wrong" | "correct" | "checking">("none");
+  const checkingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const challenge = challenges[activeIndex];
   const options = useMemo(() => {
@@ -114,9 +115,17 @@ export const Quiz = ({
 
   const onSelect = (id: number) => {
     if (status !== "none") return;
-
     setSelectedOption(id);
   };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (checkingTimeoutRef.current) {
+        clearTimeout(checkingTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const onContinue = () => {
     if (!selectedOption || !challenge) return;
@@ -134,33 +143,30 @@ export const Quiz = ({
       return;
     }
 
-    // Instant client-side answer checking for immediate feedback
-    const isCorrect = correctOptionId === selectedOption;
-    
-    if (isCorrect) {
-      // Show immediate feedback
-      void correctControls.play();
-      setStatus("correct");
-      setPercentage((prev) => prev + 100 / challenges.length);
-    } else {
-      // Show immediate feedback
-      void incorrectControls.play();
-      setStatus("wrong");
+    // Start checking phase - show loader
+    setStatus("checking");
+
+    // Clear any existing timeout
+    if (checkingTimeoutRef.current) {
+      clearTimeout(checkingTimeoutRef.current);
     }
 
-    // Call server in background to update hearts/points and save progress
+    // Store the correct answer check
+    const isCorrect = correctOptionId === selectedOption;
+
+    // Start server call immediately in background
     startTransition(() => {
       checkAnswer(challenge.id, selectedOption)
         .then((response) => {
           if (response.error === "hearts") {
+            // Clear checking timeout if server responds with error
+            if (checkingTimeoutRef.current) {
+              clearTimeout(checkingTimeoutRef.current);
+              checkingTimeoutRef.current = null;
+            }
             openHeartsModal();
             // Revert optimistic updates if hearts error
-            if (isCorrect) {
-              setStatus("none");
-              setPercentage((prev) => prev - 100 / challenges.length);
-            } else {
-              setStatus("none");
-            }
+            setStatus("none");
             setSelectedOption(undefined);
             return;
           }
@@ -176,16 +182,37 @@ export const Quiz = ({
           }
         })
         .catch(() => {
+          // Clear checking timeout on error
+          if (checkingTimeoutRef.current) {
+            clearTimeout(checkingTimeoutRef.current);
+            checkingTimeoutRef.current = null;
+          }
           toast.error("Something went wrong. Please try again.");
           // Revert optimistic updates on error
-          if (isCorrect) {
-            setStatus("none");
-            setPercentage((prev) => prev - 100 / challenges.length);
-          } else {
-            setStatus("none");
-          }
+          setStatus("none");
+          setSelectedOption(undefined);
         });
     });
+
+    // After 1.5 seconds, show feedback (only if still in checking state)
+    checkingTimeoutRef.current = setTimeout(() => {
+      // Only show feedback if we're still in checking state
+      // (status might have changed if server responded with error)
+      setStatus((currentStatus) => {
+        if (currentStatus === "checking") {
+          if (isCorrect) {
+            void correctControls.play();
+            setPercentage((prev) => prev + 100 / challenges.length);
+            return "correct";
+          } else {
+            void incorrectControls.play();
+            return "wrong";
+          }
+        }
+        return currentStatus;
+      });
+      checkingTimeoutRef.current = null;
+    }, 1500); // 1.5 second delay for checking
   };
 
   if (!challenge) {
@@ -280,9 +307,9 @@ export const Quiz = ({
               <Challenge
                 options={options}
                 onSelect={onSelect}
-                status={status}
+                status={status === "checking" ? "none" : status}
                 selectedOption={selectedOption}
-                disabled={pending}
+                disabled={pending || status === "checking"}
                 type={challenge.type}
               />
             </div>
@@ -291,10 +318,11 @@ export const Quiz = ({
       </div>
 
       <Footer
-        disabled={pending || !selectedOption}
+        disabled={pending || !selectedOption || status === "checking"}
         status={status}
         onCheck={onContinue}
       />
     </>
   );
 };
+

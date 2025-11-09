@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
@@ -79,7 +79,9 @@ export const QuizOptimized = ({
   });
 
   const [selectedOption, setSelectedOption] = useState<number>();
-  const [status, setStatus] = useState<"none" | "wrong" | "correct">("none");
+  const [status, setStatus] = useState<"none" | "wrong" | "correct" | "checking">("none");
+  const checkingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isCorrectRef = useRef<boolean>(false);
 
   const challenge = challenges[activeIndex];
   const options = useMemo(() => {
@@ -111,35 +113,66 @@ export const QuizOptimized = ({
     [challenges.length]
   );
 
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (checkingTimeoutRef.current) {
+        clearTimeout(checkingTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // Optimistic answer mutation
   const answerMutation = useMutation({
     mutationFn: ({ challengeId, optionId }: { challengeId: number; optionId: number }) =>
       checkAnswer(challengeId, optionId),
     onMutate: ({ optionId }) => {
-      // Instant client-side answer checking - show feedback immediately
+      // Store the correct answer check
       const isCorrect = correctOptionId === optionId;
+      isCorrectRef.current = isCorrect;
 
-      if (isCorrect) {
-        setStatus("correct");
-        void correctControls.play();
-        // Optimistically update progress
-        setPercentage((prev) => Math.min(prev + progressIncrement, 100));
-        if (initialPercentage === 100) {
-          setHearts((prev) => Math.min(prev + 1, MAX_HEARTS));
-        }
-      } else {
-        setStatus("wrong");
-        void incorrectControls.play();
-        if (!userSubscription?.isActive) {
-          setHearts((prev) => Math.max(prev - 1, 0));
-        }
+      // Clear any existing timeout
+      if (checkingTimeoutRef.current) {
+        clearTimeout(checkingTimeoutRef.current);
       }
+
+      // After 1.5 seconds, show feedback (only if still in checking state)
+      checkingTimeoutRef.current = setTimeout(() => {
+        // Only show feedback if we're still in checking state
+        // (status might have changed if server responded with error)
+        setStatus((currentStatus) => {
+          if (currentStatus === "checking") {
+            if (isCorrect) {
+              void correctControls.play();
+              // Optimistically update progress
+              setPercentage((prev) => Math.min(prev + progressIncrement, 100));
+              if (initialPercentage === 100) {
+                setHearts((prev) => Math.min(prev + 1, MAX_HEARTS));
+              }
+              return "correct";
+            } else {
+              void incorrectControls.play();
+              if (!userSubscription?.isActive) {
+                setHearts((prev) => Math.max(prev - 1, 0));
+              }
+              return "wrong";
+            }
+          }
+          return currentStatus;
+        });
+        checkingTimeoutRef.current = null;
+      }, 1500); // 1.5 second delay for checking
 
       // Return context for error handling
       return { isCorrect };
     },
     onSuccess: (data) => {
       if (data.error === "hearts") {
+        // Clear checking timeout immediately for errors
+        if (checkingTimeoutRef.current) {
+          clearTimeout(checkingTimeoutRef.current);
+          checkingTimeoutRef.current = null;
+        }
         openHeartsModal();
         // Revert optimistic updates (status and percentage if correct)
         if (data.isCorrect) {
@@ -150,6 +183,8 @@ export const QuizOptimized = ({
         return;
       }
 
+      // For successful responses, let the timeout handle showing feedback
+      // The timeout will show correct/wrong after 1.5s, then we update hearts here
       // Update hearts and points from server response
       if (data.hearts !== undefined) {
         setHearts(data.hearts);
@@ -160,6 +195,12 @@ export const QuizOptimized = ({
       void queryClient.invalidateQueries({ queryKey: ["lesson", lessonId] });
     },
     onError: (error, _variables, context) => {
+      // Clear checking timeout immediately for errors
+      if (checkingTimeoutRef.current) {
+        clearTimeout(checkingTimeoutRef.current);
+        checkingTimeoutRef.current = null;
+      }
+
       // Revert optimistic updates on error
       if (context?.isCorrect) {
         setPercentage((prev) => Math.max(prev - progressIncrement, 0));
@@ -199,7 +240,10 @@ export const QuizOptimized = ({
       return;
     }
 
-    // Submit answer with optimistic UI
+    // Start checking phase - show loader
+    setStatus("checking");
+
+    // Submit answer - mutation will handle the delay and feedback
     answerMutation.mutate({
       challengeId: challenge.id,
       optionId: selectedOption,
@@ -308,9 +352,9 @@ export const QuizOptimized = ({
                 <Challenge
                   options={options}
                   onSelect={onSelect}
-                  status={status}
+                  status={status === "checking" ? "none" : status}
                   selectedOption={selectedOption}
-                  disabled={answerMutation.isPending}
+                  disabled={answerMutation.isPending || status === "checking"}
                   type={challenge.type}
                 />
               </div>
@@ -320,7 +364,7 @@ export const QuizOptimized = ({
       </div>
 
       <Footer
-        disabled={answerMutation.isPending || !selectedOption}
+        disabled={answerMutation.isPending || !selectedOption || status === "checking"}
         status={status}
         onCheck={onContinue}
       />

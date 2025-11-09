@@ -2,7 +2,6 @@ import {
   ClerkLoaded,
   ClerkLoading,
   SignInButton,
-  SignUpButton,
   SignedIn,
   SignedOut,
 } from "@clerk/nextjs";
@@ -34,12 +33,12 @@ export default function MarketingPage() {
 
           <ClerkLoaded>
             <SignedOut>
-              <SignUpButton mode="modal">
+              <SignInButton mode="modal">
                 <Button size="lg" variant="primary" className="w-full">
                   Get Started
                 </Button>
                 
-              </SignUpButton>
+              </SignInButton>
 
               <SignInButton mode="modal">
                 <Button size="lg" variant="primaryOutline" className="w-full">

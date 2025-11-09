@@ -101,6 +101,13 @@ export const Quiz = ({
     return opts;
   }, [challenge]);
 
+  // Preload correct answer ID for instant client-side checking
+  const correctOptionId = useMemo(() => {
+    if (!challenge?.challengeOptions) return undefined;
+    const correctOption = challenge.challengeOptions.find((opt) => opt.correct);
+    return correctOption?.id;
+  }, [challenge]);
+
   const onNext = () => {
     setActiveIndex((current) => current + 1);
   };
@@ -127,34 +134,57 @@ export const Quiz = ({
       return;
     }
 
-    // Use batched action for better performance
+    // Instant client-side answer checking for immediate feedback
+    const isCorrect = correctOptionId === selectedOption;
+    
+    if (isCorrect) {
+      // Show immediate feedback
+      void correctControls.play();
+      setStatus("correct");
+      setPercentage((prev) => prev + 100 / challenges.length);
+    } else {
+      // Show immediate feedback
+      void incorrectControls.play();
+      setStatus("wrong");
+    }
+
+    // Call server in background to update hearts/points and save progress
     startTransition(() => {
       checkAnswer(challenge.id, selectedOption)
         .then((response) => {
           if (response.error === "hearts") {
             openHeartsModal();
+            // Revert optimistic updates if hearts error
+            if (isCorrect) {
+              setStatus("none");
+              setPercentage((prev) => prev - 100 / challenges.length);
+            } else {
+              setStatus("none");
+            }
+            setSelectedOption(undefined);
             return;
           }
 
-          if (response.isCorrect) {
-            void correctControls.play();
-            setStatus("correct");
-            setPercentage((prev) => prev + 100 / challenges.length);
+          // Update hearts from server response
+          if (response.hearts !== undefined) {
+            setHearts(response.hearts);
+          }
 
-            // This is a practice
-            if (initialPercentage === 100 && response.hearts !== undefined) {
-              setHearts(response.hearts);
-            }
-          } else {
-            void incorrectControls.play();
-            setStatus("wrong");
-
-            if (response.hearts !== undefined) {
-              setHearts(response.hearts);
-            }
+          // This is a practice - update hearts if needed
+          if (initialPercentage === 100 && response.hearts !== undefined) {
+            setHearts(response.hearts);
           }
         })
-        .catch(() => toast.error("Something went wrong. Please try again."));
+        .catch(() => {
+          toast.error("Something went wrong. Please try again.");
+          // Revert optimistic updates on error
+          if (isCorrect) {
+            setStatus("none");
+            setPercentage((prev) => prev - 100 / challenges.length);
+          } else {
+            setStatus("none");
+          }
+        });
     });
   };
 

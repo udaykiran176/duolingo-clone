@@ -98,6 +98,13 @@ export const QuizOptimized = ({
     return opts;
   }, [challenge]);
 
+  // Preload correct answer ID for instant client-side checking
+  const correctOptionId = useMemo(() => {
+    if (!challenge?.challengeOptions) return undefined;
+    const correctOption = challenge.challengeOptions.find((opt) => opt.correct);
+    return correctOption?.id;
+  }, [challenge]);
+
   // Calculate progress increment
   const progressIncrement = useMemo(
     () => 100 / challenges.length,
@@ -109,9 +116,8 @@ export const QuizOptimized = ({
     mutationFn: ({ challengeId, optionId }: { challengeId: number; optionId: number }) =>
       checkAnswer(challengeId, optionId),
     onMutate: ({ optionId }) => {
-      // Optimistic update - show feedback immediately
-      const correctOption = options.find((opt) => opt.correct);
-      const isCorrect = correctOption?.id === optionId;
+      // Instant client-side answer checking - show feedback immediately
+      const isCorrect = correctOptionId === optionId;
 
       if (isCorrect) {
         setStatus("correct");
@@ -128,11 +134,17 @@ export const QuizOptimized = ({
           setHearts((prev) => Math.max(prev - 1, 0));
         }
       }
+
+      // Return context for error handling
+      return { isCorrect };
     },
     onSuccess: (data) => {
       if (data.error === "hearts") {
         openHeartsModal();
-        // Revert optimistic updates
+        // Revert optimistic updates (status and percentage if correct)
+        if (data.isCorrect) {
+          setPercentage((prev) => Math.max(prev - progressIncrement, 0));
+        }
         setStatus("none");
         setSelectedOption(undefined);
         return;
@@ -147,8 +159,11 @@ export const QuizOptimized = ({
       // Invalidate queries to sync cache
       void queryClient.invalidateQueries({ queryKey: ["lesson", lessonId] });
     },
-    onError: (error) => {
+    onError: (error, _variables, context) => {
       // Revert optimistic updates on error
+      if (context?.isCorrect) {
+        setPercentage((prev) => Math.max(prev - progressIncrement, 0));
+      }
       setStatus("none");
       setSelectedOption(undefined);
       toast.error("Something went wrong. Please try again.");

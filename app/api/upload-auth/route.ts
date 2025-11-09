@@ -1,6 +1,7 @@
 // File: app/api/upload-auth/route.ts
-import { getUploadAuthParams } from "@imagekit/next/server";
 import { randomUUID } from "crypto";
+
+import { getUploadAuthParams } from "@imagekit/next/server";
 
 export const runtime = "nodejs";
 

